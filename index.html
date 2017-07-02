@@ -10,8 +10,40 @@
 </head>
 <body>
 
+  <div id="loading-wrap">
+    <div id="loading">
+      <img src="img/logo--white.png" alt="Tourism New Zealand logo" />
+      <p id="loading-text">Loading</p>
+    </div>
+  </div>
+  <div id="wrapper"></div>
 
-
+  <script type="template/template-7" data-template="mainWrapper">
+  <div class="row">
+    <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3" id="sidebar">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- <p class="navbar-text pull-right hidden-xs"></p> -->
+          <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#stores" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="navbar-header">
+            <a class="navbar-brand">
+              <img src="img/logo--black.png" alt="Tourism New Zealand logo" />
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" id="map-wrap">
+      <div id="map"></div>
+      <div id="map-footer"></div>
+    </div>
+  </div>
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="js/script.js"></script>
