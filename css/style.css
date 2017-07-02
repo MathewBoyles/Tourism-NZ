@@ -1,10 +1,20 @@
+@-moz-keyframes stripes {
+  0% {
+    background-position-x: 0px; }
+  100% {
+    background-position-x: 200px; } }
+@-webkit-keyframes stripes {
+  0% {
+    background-position-x: 0px; }
+  100% {
+    background-position-x: 200px; } }
 @keyframes stripes {
   0% {
     background-position-x: 0px; }
   100% {
     background-position-x: 200px; } }
 #loading-wrap {
-  -ms-animation: stripes 8s linear 0s infinite normal;
+  -moz-animation: stripes 8s linear 0s infinite normal;
   -webkit-animation: stripes 8s linear 0s infinite normal;
   animation: stripes 8s linear 0s infinite normal;
   background: #91c058;
@@ -20,6 +30,7 @@
     position: absolute;
     text-align: center;
     top: 50%;
+    -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }

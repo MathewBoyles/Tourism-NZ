@@ -1,13 +1,3 @@
-// LOADING
-var loading_translation = ["Loading","装载","積載","Laden","로딩"];
-var loading_i = 0;
-setInterval(function(){
-  loading_i++;
-  if(loading_i == loading_translation.length) loading_i = 0;
-  document.getElementById("loading-text").innerText = loading_translation[loading_i];
-}, 1000);
-// /LOADING
-
 var app = new Object;
 
 $(document).ready(function(){
@@ -20,14 +10,18 @@ $(document).ready(function(){
     zoom: {
       default: 6
     },
-    template: function(template){
-      return Template7.compile(
-        $("script[type=\"template/template-7\"][data-template=\""+template+"\"]").html()
-      );
+    template: function(template, success_function){
+      if(success_function){
+        $.ajax({
+          url: ("tmpl/" + template + ".html"),
+          success: success_function
+        });
+      }
+      else return $("script[data-template=\"" + template + "\"]").html();
     },
     include: function(link, type, return_function){
-      if(type=='js') $.getScript(link, return_function);
-      if(type=='css'){
+      if(type=="js") $.getScript(link, return_function);
+      if(type=="css"){
         $el = $("<link />");
         $el
           .attr("rel", "stylesheet")
@@ -37,20 +31,26 @@ $(document).ready(function(){
         $("body").append($el);
       }
     },
+    aAdd: function(){
+      app.assetsCount++;
+    },
     init: function(){
-      app.assets_count++;
+      app.aAdd();
       app.include(("https://maps.googleapis.com/maps/api/js?libraries=geometry&key=" + (window.location.hostname == "localhost" ? "AIzaSyDUhuRDR9mGCjRK19_AJ0TYz1kK4lAOR9o" : "AIzaSyCUlkyfiisV-1JwYVEITouh3qXed8ejS18")), "js", app.load);
 
-      app.assets_count++;
-      app.include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", function(){
-        $("#wrapper").append(app.template('mainWrapper'));
+      app.aAdd();
+      app.include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", app.load);
+
+      app.aAdd();
+      app.template("main", function(data){
+        $("#wrapper").html(data);
         app.load();
       });
     },
-    assets_count: 0,
+    assetsCount: 0,
     load: function(){
-      app.assets_count -= 1;
-      if(app.assets_count > 0) return;
+      app.assetsCount -= 1;
+      if(app.assetsCount > 0) return;
 
       $("#loading-wrap").fadeOut(500);
 
