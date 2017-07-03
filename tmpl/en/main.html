@@ -1,14 +1,14 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3" id="sidebar">
+  <div id="sidebar">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- <p class="navbar-text pull-right hidden-xs"></p> -->
-        <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#stores" aria-expanded="false">
+        <!-- <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#stores" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </button>
+        </button> -->
         <div class="navbar-header">
           <a class="navbar-brand">
             <img src="img/logo--black.png" alt="Tourism New Zealand logo" />
@@ -16,8 +16,12 @@
         </div>
       </div>
     </nav>
+    <div id="content" class="steps">
+      <tmpl src="{{global.lang}}/steps/welcome" data-wait="true"></tmpl>
+      <tmpl src="{{global.lang}}/steps/route" data-wait="true"></tmpl>
+    </div>
   </div>
-  <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" id="map-wrap">
+  <div id="mapWrap">
     <div id="map"></div>
     <div id="map-footer"></div>
   </div>

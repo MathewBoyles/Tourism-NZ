@@ -1,0 +1,49 @@
+<div class="step stepWelcome" data-step="1" data-step-map="start" id="steps_route">
+  <div class="stepTop">
+
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>Enter<span> your </span>Route</h1>
+        <small>Step 1/3</small>
+      </div>
+    </div>
+
+    <div class="stepWrap">
+
+      <div class="alert alert-warning hide" id="steps_route_error"><strong>Oops!</strong> We couldn't find a drivable route for your travels.</div>
+
+      <script type="template/template" data-name="steps/route/destination">
+      <div class="stepLocation">
+        <label>
+          <span>Waypoint #{{num}}:</span>
+          <input class="form-control">
+        </label>
+      </div>
+      </script>
+
+      <div class="stepLocation" data-stop="start">
+        <label>
+          <span>Start location:</span>
+          <input class="form-control">
+        </label>
+      </div>
+      <tmpl src="#steps/route/destination" parse="{&quot;num&quot;:1}"></tmpl>
+      <div class="stepLocation-add">
+        <a class="btn btn-xs btn-block btn-default" data-action="manageStops:add">+ Add another stop</a>
+      </div>
+      <div class="stepLocation" data-stop="end">
+        <label>
+          <span>End location:</span>
+          <input class="form-control">
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:0">Back</a>
+    <span class="pull-right">
+      <!-- <a class="btn btn-link btn-sm stepSkip" data-action="setStep:2">Skip</a> -->
+      <a class="btn btn-success btn-lg stepNext" data-action="setStep:2" disabled="disabled" id="steps_route_next">Next</a>
+    </span>
+  </div>
+</div>
