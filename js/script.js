@@ -269,6 +269,18 @@ $(document).ready(function(){
         });
       });
 
+      app.aAdd().include("js/fuel.json", "json", function(data){
+        $.each(data, function(name, value){
+          app.setVar(name, value);
+        });
+        app.load();
+      });
+
+      app.aAdd().include("js/vehicles.json", "json", function(data){
+        app.setVar("vehicles", data);
+        app.load();
+      });
+
       return app;
     },
     assetsCount: 0,
