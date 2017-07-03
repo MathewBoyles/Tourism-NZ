@@ -12,7 +12,16 @@ $(document).ready(function(){
     tmp: [],
     vars: {
       lang: "en",
-      locations: []
+      locations: [],
+      days: 1,
+      distance: {
+        text: "",
+        value: 0
+      },
+      duration: {
+        days: 0,
+        value: 0
+      }
     },
     setVar: function(name, value){
       app.vars[name] = value;
@@ -48,8 +57,8 @@ $(document).ready(function(){
         var startOkay = false;
         var endOkay = false;
 
-        app.vars.distance = 0;
-        app.vars.duration = 0;
+        app.vars.distance = {text:"",value:0};
+        app.vars.duration = {days:0,value:0};
 
         $("#steps_route .stepLocation .form-control").each(function(){
           if($(this).data("searchBox").getPlace() && $(this).val()){
@@ -120,8 +129,17 @@ $(document).ready(function(){
                 stepDistance += leg.distance.value;
                 stepDuration += leg.duration.value;
               });
-              app.vars.distance = stepDistance;
-              app.vars.duration = stepDuration;
+
+              app.vars.distance.text = Math.ceil(stepDistance / 1000) + "km";
+              app.vars.distance.value = stepDistance;
+              app.vars.duration.days = Math.ceil(stepDuration / ( 60 * 60 * 18 ));
+              app.vars.duration.value = stepDuration;
+
+              if(app.vars.duration.days > app.vars.days) app.manageDays("set", app.vars.duration.days);
+
+              app.template("#steps/days/info", function(data){
+                $("#steps_route_info").html(data);
+              }, null, {});
 
               $("#steps_route_next").removeAttr("disabled");
               app.directionsDisplay.setDirections(result);
@@ -199,7 +217,7 @@ $(document).ready(function(){
             console.error("app.template", "PARSE FAILED", err);
           }
           tmplParse.global = app.vars;
-          var tmplData_tmp = new String;
+          var tmplData_tmp;
 
           tmplData_tmp = $("<script />");
           tmplData_tmp.attr("type", "text/plain");
@@ -223,6 +241,7 @@ $(document).ready(function(){
           });
           tmplData = tmplData_tmp.html();
           tmplData_tmp.remove();
+
 
           successFunction.call(element, tmplData, status, tmplInfo);
           app.contentAware();
@@ -341,6 +360,16 @@ $(document).ready(function(){
 
         if(stopsNum >= 20) $("#steps_route .stepLocation-add").hide();
       }
+      return app;
+    },
+    manageDays: function(method, num){
+      var daysCount = Number($("#steps_route_num").html());
+      if(method == "add") daysCount++;
+      if(method == "remove") daysCount--;
+      if(method == "set") daysCount = num;
+      else if(daysCount < 1 || daysCount > 30) return app;
+      $("#steps_route_num").html(daysCount);
+      app.vars.days = daysCount;
       return app;
     }
   };

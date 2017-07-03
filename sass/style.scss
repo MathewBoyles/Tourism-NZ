@@ -127,6 +127,23 @@ tmpl {
                   width: 100%;
                 }
 
+                > div {
+                  background: #eee;
+                  border-radius: 6px;
+                  color: #030303;
+                  cursor: pointer;
+                  font-size: 3em;
+                  padding: 8px 0px 15px;
+                  text-align: center;
+                  -moz-user-select: none;
+                  -ms-user-select: none;
+                  -webkit-user-select: none;
+                  user-select: none;
+                  &.num {
+                    padding: 11px 0px 12px;
+                  }
+                }
+
                 &.active {
                   > img {
                     background: #91c058;

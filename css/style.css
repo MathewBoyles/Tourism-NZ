@@ -1,16 +1,19 @@
 @-moz-keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 @-webkit-keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 @keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 html, body {
@@ -96,6 +99,20 @@ tmpl {
           cursor: pointer;
           padding: 10px;
           width: 100%; }
+        #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item > div {
+          background: #eee;
+          border-radius: 6px;
+          color: #030303;
+          cursor: pointer;
+          font-size: 3em;
+          padding: 8px 0px 15px;
+          text-align: center;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          -webkit-user-select: none;
+          user-select: none; }
+          #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item > div.num {
+            padding: 11px 0px 12px; }
         #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item.active > img {
           background: #91c058;
           background: url(../img/stripes.png);
@@ -120,5 +137,3 @@ tmpl {
     #wrapper > .row #mapWrap #map {
       background: #eee;
       height: 100%; }
-
-/*# sourceMappingURL=style.css.map */
