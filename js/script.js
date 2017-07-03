@@ -241,6 +241,7 @@ $(document).ready(function(){
       return app;
     },
     include: function(link, type, returnFunction){
+      link += (/\?/.test(link) ? "&" : "?") + "_=" + Date.now();
       if(type=="css"){
         $el = $("<link />");
         $el
