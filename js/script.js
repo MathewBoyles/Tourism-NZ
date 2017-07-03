@@ -48,6 +48,9 @@ $(document).ready(function(){
         var startOkay = false;
         var endOkay = false;
 
+        app.vars.distance = 0;
+        app.vars.duration = 0;
+
         $("#steps_route .stepLocation .form-control").each(function(){
           if($(this).data("searchBox").getPlace() && $(this).val()){
             if($(this).parent().parent().attr("data-stop") == "start") startOkay = true;
@@ -111,6 +114,15 @@ $(document).ready(function(){
 
           app.directionsService.route(request, function(result, status) {
             if(status == "OK"){
+              var stepDistance = 0;
+              var stepDuration = 0;
+              $.each(result.routes[0].legs, function(i, leg){
+                stepDistance += leg.distance.value;
+                stepDuration += leg.duration.value;
+              });
+              app.vars.distance = stepDistance;
+              app.vars.duration = stepDuration;
+
               $("#steps_route_next").removeAttr("disabled");
               app.directionsDisplay.setDirections(result);
               $("#steps_route .stepLocation .form-control").each(function(){
@@ -304,6 +316,7 @@ $(document).ready(function(){
         draggable: false,
         scrollwheel: false
       });
+      app.distanceService = new google.maps.DistanceMatrixService();
       app.directionsService = new google.maps.DirectionsService();
       app.directionsDisplay = new google.maps.DirectionsRenderer();
       app.directionsDisplay.setMap(null);
