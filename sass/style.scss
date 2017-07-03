@@ -46,7 +46,7 @@ tmpl {
 }
 
 #wrapper {
-  .row {
+  > .row {
     height: 100%;
     margin: 0;
     position: absolute;
@@ -88,6 +88,7 @@ tmpl {
             overflow: hidden;
             overflow-y: auto;
             padding: 0 0 20px;
+            position: relative;
 
             .stepWrap {
               padding: 0 20px;
@@ -112,6 +113,30 @@ tmpl {
 
             .stepLocation-add {
               margin: -5px 0 10px;
+            }
+
+            .stepParty {
+              margin-bottom: 20px;
+
+              > .stepParty-item {
+                > img {
+                  background: #eee;
+                  border-radius: 6px;
+                  cursor: pointer;
+                  padding: 10px;
+                  width: 100%;
+                }
+
+                &.active {
+                  > img {
+                    background: #91c058;
+                    background: url(../img/stripes.png);
+                    -moz-animation: stripes 30s linear 0s infinite normal;
+                    -webkit-animation: stripes 30s linear 0s infinite normal;
+                    animation: stripes 30s linear 0s infinite normal;
+                  }
+                }
+              }
             }
           }
           > .stepBottom {

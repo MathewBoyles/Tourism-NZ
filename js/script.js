@@ -41,79 +41,95 @@ $(document).ready(function(){
             event.preventDefault();
           });
       });
+
+      function checkAllSteps(type){
+        app.vars.locations = [];
+        var hasError = false;
+        var startOkay = false;
+        var endOkay = false;
+
+        $("#steps_route .stepLocation .form-control").each(function(){
+          if($(this).data("searchBox").getPlace() && $(this).val()){
+            if($(this).parent().parent().attr("data-stop") == "start") startOkay = true;
+            if($(this).parent().parent().attr("data-stop") == "end") endOkay = true;
+          }
+        });
+
+        if(!startOkay || !endOkay) hasError = true;
+
+        $("#steps_route .stepLocation .form-control").each(function(){
+          var thisError = false;
+          $(this).parent().removeClass("has-error");
+          if($(this).data("searchBox").getPlace() && $(this).val()){
+            $(this).data("marker").setMap(app.map);
+            $(this).data("marker").setPosition($(this).data("searchBox").getPlace().geometry.location);
+          }
+          else {
+            if($(this).parent().parent().attr("data-stop")) thisError = true;
+            if($(this).val()) thisError = true;
+
+            if(thisError){
+              $(this).parent().addClass("has-error");
+              hasError = true;
+            }
+            if(thisError || !$(this).val()) $(this).data("marker").setMap(null);
+          }
+        });
+        $("#steps_route_error").addClass("hide");
+        $("#steps_route_next").attr("disabled", "disabled");
+        if(hasError){
+          app.directionsDisplay.setMap(null);
+          $("#steps_route .stepLocation .form-control").each(function(){
+            $(this).data("marker").setMap(app.map);
+          });
+        }
+        else {
+          app.directionsDisplay.setMap(app.map);
+          var request = {
+            origin: {},
+            destination: {},
+            waypoints: [],
+            travelMode: "DRIVING"
+          };
+
+          request.origin = $("#steps_route .stepLocation[data-stop=\"start\"] .form-control").data("searchBox").getPlace().geometry.location;
+          request.destination = $("#steps_route .stepLocation[data-stop=\"end\"] .form-control").data("searchBox").getPlace().geometry.location;
+
+          app.vars.locations.push(request.origin);
+
+          $("#steps_route .stepLocation:not([data-stop])").each(function(){
+            if($(this).hasClass("has-error") || !$(this).find(".form-control").val()) return;
+            var stepArray = {
+              location: $(this).find(".form-control").data("searchBox").getPlace().geometry.location,
+              stopover: true
+            };
+            request.waypoints.push(stepArray);
+            app.vars.locations.push(stepArray.location);
+          });
+
+          app.vars.locations.push(request.destination);
+
+          app.directionsService.route(request, function(result, status) {
+            if(status == "OK"){
+              $("#steps_route_next").removeAttr("disabled");
+              app.directionsDisplay.setDirections(result);
+              $("#steps_route .stepLocation .form-control").each(function(){
+                $(this).data("marker").setMap(null);
+              });
+            }
+            else $("#steps_route_error").removeClass("hide");
+          });
+        }
+      }
+
       $("#steps_route .stepLocation .form-control").each(function(){
         if(typeof google == "undefined") return;
         if($(this).data("dataInit")) return;
         $(this).data("dataInit", true);
 
-        function checkAll(){
-          var hasError = false;
-          var startOkay = false;
-          var endOkay = false;
-
-          $("#steps_route .stepLocation .form-control").each(function(){
-            if($(this).data("searchBox").getPlace() && $(this).val()){
-              if($(this).parent().parent().attr("data-stop") == "start") startOkay = true;
-              if($(this).parent().parent().attr("data-stop") == "end") endOkay = true;
-            }
-          });
-
-          if(!startOkay || !endOkay) hasError = true;
-
-          $("#steps_route .stepLocation .form-control").each(function(){
-            var thisError = false;
-            $(this).parent().removeClass("has-error");
-            if($(this).data("searchBox").getPlace() && $(this).val()){
-              $(this).data("marker").setMap(app.map);
-              $(this).data("marker").setPosition($(this).data("searchBox").getPlace().geometry.location);
-            }
-            else {
-              if($(this).parent().parent().attr("data-stop")) thisError = true;
-              if($(this).val()) thisError = true;
-
-              if(thisError){
-                $(this).parent().addClass("has-error");
-                hasError = true;
-              }
-              if(thisError || !$(this).val()) $(this).data("marker").setMap(null);
-            }
-          });
-          $("#steps_route_error").addClass("hide");
-          $("#steps_route_next").attr("disabled", "disabled");
-          if(hasError) app.directionsDisplay.setMap(null);
-          else {
-            app.directionsDisplay.setMap(app.map);
-            var request = {
-              origin: {},
-              destination: {},
-              waypoints: [],
-              travelMode: "DRIVING"
-            };
-
-            request.origin = $("#steps_route .stepLocation[data-stop=\"start\"] .form-control").data("searchBox").getPlace().geometry.location;
-            request.destination = $("#steps_route .stepLocation[data-stop=\"end\"] .form-control").data("searchBox").getPlace().geometry.location;
-
-            $("#steps_route .stepLocation:not([data-stop])").each(function(){
-              if($(this).hasClass("has-error") || !$(this).find(".form-control").val()) return;
-              request.waypoints.push({
-                location: $(this).find(".form-control").data("searchBox").getPlace().geometry.location,
-                stopover: true
-              });
-            });
-
-            app.directionsService.route(request, function(result, status) {
-              if(status == "OK"){
-                $("#steps_route_next").removeAttr("disabled");
-                app.directionsDisplay.setDirections(result);
-              }
-              else $("#steps_route_error").removeClass("hide");
-            });
-          }
-        }
-
         $(this).on("blur", function(){
           if($(this).data("searchBox").getPlace() && $(this).val()) $(this).parent().removeClass("has-error");
-          checkAll();
+          checkAllSteps("blur");
         });
 
         var searchBox = new google.maps.places.Autocomplete(this, {
@@ -130,9 +146,21 @@ $(document).ready(function(){
               return;
           }
           $(this).parent().removeClass("has-error");
-          checkAll();
+          checkAllSteps("change");
         });
       });
+
+      $("#steps_party .stepParty .stepParty-item").each(function(){
+        if($(this).data("dataInit")) return;
+        $(this).data("dataInit", true);
+
+        $(this).click(function(){
+          $("#steps_party_next").removeAttr("disabled");
+          $("#steps_party .stepParty .stepParty-item").removeClass("active");
+          $(this).addClass("active");
+        });
+      });
+
       return app;
     },
     template: function(template, successFunction, element, parse){

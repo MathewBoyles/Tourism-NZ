@@ -46,63 +46,78 @@ tmpl {
       font-size: 1.5em;
       margin: 20px 0 0; }
 
-#wrapper .row {
+#wrapper > .row {
   height: 100%;
   margin: 0;
   position: absolute;
   width: 100%; }
-  #wrapper .row > div {
+  #wrapper > .row > div {
     height: 100%;
     padding: 0; }
-  #wrapper .row #sidebar {
+  #wrapper > .row #sidebar {
     border-right: 1px solid #e7e7e7;
     box-shadow: -2px 0 8px 0 #9a9a9a;
     float: left;
     width: 350px;
     z-index: 100; }
-    #wrapper .row #sidebar nav {
+    #wrapper > .row #sidebar nav {
       border-bottom: 1px solid #e7e7e7;
       border-radius: 0;
       border-width: 0;
       margin-bottom: 0;
       padding: 20px 15px; }
-      #wrapper .row #sidebar nav .navbar-header .navbar-brand img {
+      #wrapper > .row #sidebar nav .navbar-header .navbar-brand img {
         margin-top: -7px;
         width: 100px; }
-    #wrapper .row #sidebar .steps > .step > .stepTop {
+    #wrapper > .row #sidebar .steps > .step > .stepTop {
       height: calc(100vh - 91px - 86px);
       overflow: hidden;
       overflow-y: auto;
-      padding: 0 0 20px; }
-      #wrapper .row #sidebar .steps > .step > .stepTop .stepWrap {
+      padding: 0 0 20px;
+      position: relative; }
+      #wrapper > .row #sidebar .steps > .step > .stepTop .stepWrap {
         padding: 0 20px; }
-      #wrapper .row #sidebar .steps > .step > .stepTop .jumbotron h1 {
+      #wrapper > .row #sidebar .steps > .step > .stepTop .jumbotron h1 {
         font-size: 3em; }
-        #wrapper .row #sidebar .steps > .step > .stepTop .jumbotron h1 span {
+        #wrapper > .row #sidebar .steps > .step > .stepTop .jumbotron h1 span {
           display: block;
           font-size: 70%; }
-      #wrapper .row #sidebar .steps > .step > .stepTop .stepLocation {
+      #wrapper > .row #sidebar .steps > .step > .stepTop .stepLocation {
         margin-bottom: 10px; }
-        #wrapper .row #sidebar .steps > .step > .stepTop .stepLocation label {
+        #wrapper > .row #sidebar .steps > .step > .stepTop .stepLocation label {
           display: block; }
-      #wrapper .row #sidebar .steps > .step > .stepTop .stepLocation-add {
+      #wrapper > .row #sidebar .steps > .step > .stepTop .stepLocation-add {
         margin: -5px 0 10px; }
-    #wrapper .row #sidebar .steps > .step > .stepBottom {
+      #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty {
+        margin-bottom: 20px; }
+        #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item > img {
+          background: #eee;
+          border-radius: 6px;
+          cursor: pointer;
+          padding: 10px;
+          width: 100%; }
+        #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item.active > img {
+          background: #91c058;
+          background: url(../img/stripes.png);
+          -moz-animation: stripes 30s linear 0s infinite normal;
+          -webkit-animation: stripes 30s linear 0s infinite normal;
+          animation: stripes 30s linear 0s infinite normal; }
+    #wrapper > .row #sidebar .steps > .step > .stepBottom {
       background: #f8f8f8;
       border-top: 1px solid #e7e7e7;
       padding: 20px;
       height: 86px; }
-      #wrapper .row #sidebar .steps > .step > .stepBottom > .stepBack,
-      #wrapper .row #sidebar .steps > .step > .stepBottom > .stepSkip {
+      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepBack,
+      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepSkip {
         margin-top: 7px; }
-      #wrapper .row #sidebar .steps > .step > .stepBottom > .stepNext {
+      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepNext {
         margin-left: 7px;
         width: 130px; }
-  #wrapper .row #mapWrap {
+  #wrapper > .row #mapWrap {
     float: right;
     height: 100vh;
     width: calc(100vw - 350px); }
-    #wrapper .row #mapWrap #map {
+    #wrapper > .row #mapWrap #map {
       background: #eee;
       height: 100%; }
 
