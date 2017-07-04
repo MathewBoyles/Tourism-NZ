@@ -12,7 +12,8 @@
       "weekends": 1
     },
     "price": 109,
-    "fuel": 3.7
+    "fuel": 3.7,
+    "agent": "apex"
   },
   {
     "title": "2017 Smart Fortwo",
@@ -27,7 +28,8 @@
       "weekends": 1
     },
     "price": 129,
-    "fuel": 8.5
+    "fuel": 8.5,
+    "agent": "apex"
   },
   {
     "title": "2017 Chevrolet SS",
@@ -42,7 +44,8 @@
       "weekends": 1
     },
     "price": 144,
-    "fuel": 9.7
+    "fuel": 9.7,
+    "agent": "apex"
   },
   {
     "title": "Autotrail Tribute 620",
@@ -57,6 +60,7 @@
       "weekends": 1
     },
     "price": 200,
-    "fuel": 17.0
+    "fuel": 17.0,
+    "agent": "apex"
   }
 ]

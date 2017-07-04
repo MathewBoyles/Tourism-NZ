@@ -11,7 +11,7 @@
     <div class="panel panel-primary text-center">
       <div class="panel-heading">
         <h4>Your Trip</h4>
-        {{global.distance.text}} - {{global.days}} day{{#js_compare "app.vars.days > 1"}}s{{/js_compare}} - {{global.party}} {{#js_compare "app.vars.party === 1"}}person{{else}}people{{/js_compare}}
+        {{global.distance.text}} - {{global.days}} day{{#js_compare "app.vars.days > 1"}}s{{/js_compare}} - {{global.party}} {{js "app.vars.party == 1 ? 'person' : 'people'"}}
       </div>
       <div class="panel-body">{{global.rentals.length}} available rental option{{#js_compare "app.vars.rentals.length !== 1"}}s{{/js_compare}}</div>
       <div class="panel-footer"><small>${{global.fuel}}/L fuel price</small></div>

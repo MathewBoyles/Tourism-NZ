@@ -48,7 +48,7 @@ $(document).ready(function(){
         $(this)
           .data("data-action", $(this).attr("data-action"))
           .removeAttr("data-action")
-          .click(function(){
+          .click(function(event){
             var clickData = $(this).data("data-action").split(":");
             app[clickData[0]].apply($(this), clickData[1].split(","));
             event.preventDefault();
@@ -323,6 +323,11 @@ $(document).ready(function(){
         app.load();
       });
 
+      app.aAdd().include("js/agents.json", "json", function(data){
+        app.setVar("agents", data);
+        app.load();
+      });
+
       return app;
     },
     assetsCount: 0,
@@ -368,7 +373,7 @@ $(document).ready(function(){
           if(app.vars.days < vehicle.days.min || app.vars.days > vehicle.days.max) return;
           var pushVehicle = vehicle;
           pushVehicle.id = i;
-          pushVehicle.fuel_cost = ( ( (vehicle.fuel / 100) * app.vars.fuel ) * (app.vars.distance.value / 1000) ).toFixed(2);
+          pushVehicle.fuel_cost = (((vehicle.fuel / 100) * app.vars.fuel ) * (app.vars.distance.value / 1000)).toFixed(2);
           app.vars.rentals.push(pushVehicle);
         });
 
@@ -404,7 +409,37 @@ $(document).ready(function(){
     selectVehicle: function(id){
       id = Number(id);
       app.vars.vehicle = id;
-      console.log(id, app.vars.vehicles[id]);
+
+      var vehicleArray = app.vars.vehicles[id];
+
+      vehicleArray.agentInfo = app.vars.agents[vehicleArray.agent];
+      vehicleArray.prices = {};
+      vehicleArray.prices.days = Number(vehicleArray.price * app.vars.days);
+      vehicleArray.prices.fuel = Number((((vehicleArray.fuel / 100) * app.vars.fuel ) * (app.vars.distance.value / 1000)).toFixed(2));
+      vehicleArray.prices.total = vehicleArray.prices.days + vehicleArray.prices.fuel;
+
+      app.template("#infobox", function(data){
+        $(data)
+          .modal({backdrop:true})
+          .bind("hidden.bs.modal", function(){
+            $(".modal,.modal-backdrop").remove();
+          })
+          .bind("shown.bs.modal", function(){
+            app.contentAware();
+          });
+      }, null, vehicleArray);
+
+      return app;
+    },
+    reload: function(){
+      $(".modal:visible").modal("hide");
+
+      $("#loadingWrap").show();
+      app.loaded = false;
+      app.template("main", function(data){
+        $("#wrapper").html(data);
+        app.load();
+      });
 
       return app;
     }

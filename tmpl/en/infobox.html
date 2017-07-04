@@ -1,0 +1,90 @@
+<script type="template/template" data-name="infobox">
+
+<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default text-center">
+          <div class="panel-heading">
+            <h5 class="panel-title">Vehicle</h5>
+          </div>
+          <div class="panel-heading">
+            <img src="{{image}}" class="img-responsive" style="display:inline-block">
+          </div>
+          <div class="panel-body">
+            <h3 class="panel-title">{{title}}</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
+              <div class="panel-heading text-center">
+                <h5 class="panel-title">Trip</h5>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>{{global.distance.text}}</strong> distance</li>
+                <li class="list-group-item">{{global.party}} {{js "app.vars.party == 1 ? 'person' : 'people'"}}</li>
+                <li class="list-group-item">{{global.days}} day{{js "app.vars.days == 1 ? '' : 's'"}}</li>
+                <li class="list-group-item">
+                  <span><strong>${{prices.days}}</strong> rental price</span>
+                  <br />
+                  <div class="text-right">
+                    <small><em>(${{price}}/day x {{global.days}} day{{js "app.vars.days == 1 ? '' : 's'"}})</em></small>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <span><strong>${{prices.fuel}}</strong> estimated fuel cost</span>
+                  <br />
+                  <div class="text-right">
+                    <small><em>(${{global.fuel}}/L x {{fuel}}L/100km for {{global.distance.text}})</em></small>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <span><strong>${{prices.total}}</strong> total estimated cost</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default text-center">
+              <div class="panel-heading">
+                <h5 class="panel-title">Rental</h5>
+              </div>
+              {{#if agentInfo.image}}
+              <div class="panel-heading">
+                <img src="{{agentInfo.image}}" class="img-responsive" style="display:inline-block">
+              </div>
+              {{/if}}
+              <div class="panel-body">
+                <h3 class="panel-title">{{agentInfo.title}}</h3>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item">To finalize your rental, please contact this agent directly.</li>
+                {{#if agentInfo.phone}}
+                <a href="tel:{{agentInfo.phone}}">
+                  <li class="list-group-item">{{agentInfo.phone}}</li>
+                </a>
+                {{/if}}
+                {{#if agentInfo.website}}
+                <a href="{{agentInfo.website}}" target="_blank">
+                  <li class="list-group-item">Visit Website</li>
+                </a>
+                {{/if}}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link" data-action="reload:infobox">New search</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</script>
