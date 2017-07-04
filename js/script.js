@@ -355,7 +355,7 @@ $(document).ready(function(){
       $("#content.steps .step.active").removeClass("active").slideUp("fast");
       $("#content.steps .step[data-step=\"" + step + "\"]").addClass("active").slideDown("fast");
 
-      if(app.vars.distance.value && app.vars.party && app.vars.days){
+      if(step == "vehicles"){
         app.setVar("rentals", []);
 
         $.each(app.vars.vehicles, function(i, vehicle){
