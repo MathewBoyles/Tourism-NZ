@@ -139,7 +139,7 @@ $(document).ready(function(){
               app.vars.duration.days = Math.ceil(((stepDuration + ((app.vars.locations.length - 2) * (2 * 60 * 60))) / ( 60 * 60 * 14 )));
               app.vars.duration.value = stepDuration;
 
-              if(app.vars.distance.value < 100000){
+              if(app.vars.distance.value < 50000){
                 $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 100km.");
                 return;
               }
@@ -182,7 +182,6 @@ $(document).ready(function(){
 
         $(this).data("searchBox").addListener('place_changed', function() {
           if(!searchBox.getPlace()) return;
-          $(this).parent().removeClass("has-error");
           $(this).parent().removeClass("has-error");
           checkAllSteps("change");
         });
