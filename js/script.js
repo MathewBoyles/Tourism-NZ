@@ -11,6 +11,7 @@ $(document).ready(function(){
     },
     vars: {
       lang: "en",
+      languages: [],
       locations: [],
       vehicles: [],
       rentals: [],
@@ -30,13 +31,23 @@ $(document).ready(function(){
     assetsCount: 0,
     loaded: false,
     init: function(){
-      app.aAdd().include(("https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=" + (window.location.hostname == "localhost" ? "AIzaSyDUhuRDR9mGCjRK19_AJ0TYz1kK4lAOR9o" : "AIzaSyCUlkyfiisV-1JwYVEITouh3qXed8ejS18")), "js", app.load);
+      app.aAdd().include(("https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=" + (window.location.hostname == "localhost" ? "AIzaSyDUhuRDR9mGCjRK19_AJ0TYz1kK4lAOR9o" : "AIzaSyCUlkyfiisV-1JwYVEITouh3qXed8ejS18")), "js", function(){
+        app.contentAware().load();
+      });
 
       app.aAdd(2).include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", function(){
         app.load();
-        app.template("main", function(data){
-          $("#wrapper").html(data);
-          app.contentAware().load();
+        app.aAdd(2).include("js/languages.json", "json", function(data){
+          app.setVar("languages", data);
+
+          app.template("language", function(data){
+            $("#loadingWrap").fadeOut(500);
+
+            $("#languages").html(data);
+            app.contentAware().load();
+          });
+
+          app.load();
         });
       });
 
@@ -180,6 +191,8 @@ $(document).ready(function(){
       return app;
     },
     contentAware: function(){
+      if(typeof Template7 == "undefined" || typeof google == "undefined") return app;
+
       $("tmpl").each(function(){
         if($(this).data("dataInit")) return;
         $(this).data("dataInit", true);
@@ -319,7 +332,6 @@ $(document).ready(function(){
         }
       }
       $("#steps_route .stepLocation .form-control").each(function(){
-        if(typeof google == "undefined") return;
         if($(this).data("dataInit")) return;
         $(this).data("dataInit", true);
 
@@ -354,6 +366,19 @@ $(document).ready(function(){
           $("#steps_party_next").removeAttr("disabled");
           $("#steps_party .stepParty .stepParty-item").removeClass("active");
           $(this).addClass("active");
+        });
+      });
+
+      return app;
+    },
+    setLang: function(lang){
+      app.setVar("lang", lang);
+
+      $("#loadingWrap").fadeIn(500, function(){
+        $("#languageWrap").hide();
+        app.template("main", function(data){
+          $("#wrapper").html(data);
+          app.contentAware().load();
         });
       });
 

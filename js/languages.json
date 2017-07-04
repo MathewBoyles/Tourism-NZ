@@ -1,0 +1,27 @@
+[
+  {
+    "code": "en",
+    "flag": "img/languages/en-JUH38.png",
+    "title": "English (NZ)"
+  },
+  {
+    "code": "zh-Hans",
+    "flag": "img/languages/zh-Hans-KLO11.png",
+    "title": "Chinese (Simplified)"
+  },
+  {
+    "code": "ja",
+    "flag": "img/languages/ja-LN7jA.png",
+    "title": "Japanese"
+  },
+  {
+    "code": "de",
+    "flag": "img/languages/de-WNYU8.png",
+    "title": "German"
+  },
+  {
+    "code": "ko",
+    "flag": "img/languages/ko-STH63.png",
+    "title": "Korean"
+  }
+]

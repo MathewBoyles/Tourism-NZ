@@ -1,16 +1,19 @@
 @-moz-keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 @-webkit-keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 @keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 html, body {
@@ -19,7 +22,8 @@ html, body {
 tmpl {
   display: none !important; }
 
-#loadingWrap {
+#loadingWrap,
+#languageWrap {
   -moz-animation: stripes 8s linear 0s infinite normal;
   -webkit-animation: stripes 8s linear 0s infinite normal;
   animation: stripes 8s linear 0s infinite normal;
@@ -30,7 +34,10 @@ tmpl {
   position: fixed;
   width: 100%;
   z-index: 1000; }
-  #loadingWrap #loading {
+  #loadingWrap #loading,
+  #loadingWrap #language,
+  #languageWrap #loading,
+  #languageWrap #language {
     color: #FFF;
     left: 50%;
     position: absolute;
@@ -40,11 +47,27 @@ tmpl {
     -ms-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }
-    #loadingWrap #loading img {
+    #loadingWrap #loading > img,
+    #loadingWrap #language > img,
+    #languageWrap #loading > img,
+    #languageWrap #language > img {
       width: 300px; }
-    #loadingWrap #loading p {
+    #loadingWrap #loading p,
+    #loadingWrap #language p,
+    #languageWrap #loading p,
+    #languageWrap #language p {
       font-size: 1.5em;
       margin: 20px 0 0; }
+
+#loadingWrap {
+  z-index: 1001; }
+
+#languageWrap .languages {
+  margin: 20px 0 0 10px; }
+  #languageWrap .languages > .languagesSelect {
+    cursor: pointer;
+    margin: 10px 10px 0 0;
+    width: 100px; }
 
 #wrapper > .row {
   height: 100%;
@@ -148,5 +171,3 @@ tmpl {
       width: 100%; }
     #wrapper > .row #mapWrap {
       display: none; } }
-
-/*# sourceMappingURL=style.css.map */

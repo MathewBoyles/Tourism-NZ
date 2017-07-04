@@ -11,7 +11,8 @@ tmpl {
   display: none!important;
 }
 
-#loadingWrap {
+#loadingWrap,
+#languageWrap {
   -moz-animation: stripes 8s linear 0s infinite normal;
   -webkit-animation: stripes 8s linear 0s infinite normal;
   animation: stripes 8s linear 0s infinite normal;
@@ -23,7 +24,8 @@ tmpl {
   width: 100%;
   z-index: 1000;
 
-  #loading {
+  #loading,
+  #language {
     color: #FFF;
     left: 50%;
     position: absolute;
@@ -34,13 +36,28 @@ tmpl {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 
-    img {
+    > img {
       width: 300px;
     }
 
     p {
       font-size: 1.5em;
       margin: 20px 0 0;
+    }
+  }
+}
+
+#loadingWrap {
+  z-index: 1001;
+}
+
+#languageWrap {
+  .languages {
+    margin: 20px 0 0 10px;
+    > .languagesSelect {
+      cursor: pointer;
+      margin: 10px 10px 0 0;
+      width: 100px;
     }
   }
 }
