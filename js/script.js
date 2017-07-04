@@ -9,11 +9,11 @@ $(document).ready(function(){
     zoom: {
       default: 6
     },
-    tmp: [],
     vars: {
       lang: "en",
       locations: [],
-      days: 1,
+      vehicles: [],
+      rentals: [],
       distance: {
         text: "",
         value: 0
@@ -23,186 +23,87 @@ $(document).ready(function(){
         value: 0
       },
       party: 0,
-      vehicle: null,
-      vehicles: [],
-      rentals: []
+      days: 1,
+      vehicle: null
     },
-    setVar: function(name, value){
-      app.vars[name] = value;
+    tmp: [],
+    assetsCount: 0,
+    loaded: false,
+    init: function(){
+      app.aAdd().include(("https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=" + (window.location.hostname == "localhost" ? "AIzaSyDUhuRDR9mGCjRK19_AJ0TYz1kK4lAOR9o" : "AIzaSyCUlkyfiisV-1JwYVEITouh3qXed8ejS18")), "js", app.load);
+
+      app.aAdd(2).include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", function(){
+        app.load();
+        app.template("main", function(data){
+          $("#wrapper").html(data);
+          app.contentAware().load();
+        });
+      });
+
+      app.aAdd().include("js/fuel.json", "json", function(data){
+        $.each(data, function(name, value){
+          app.setVar(name, value);
+        });
+        app.load();
+      });
+
+      app.aAdd().include("js/vehicles.json", "json", function(data){
+        app.setVar("vehicles", data);
+        app.load();
+      });
+
+      app.aAdd().include("js/agents.json", "json", function(data){
+        app.setVar("agents", data);
+        app.load();
+      });
+
       return app;
     },
-    contentAware: function(){
-      $("tmpl").each(function(){
-        if($(this).data("dataInit")) return;
-        $(this).data("dataInit", true);
-        app.template($(this).attr("src"), function(data){
-          var dataWait = $(this).attr("data-wait") == "true";
-          $(this)
-            .after(data)
-            .remove();
-          if(dataWait) app.load("wait");
-          app.contentAware();
-        }, $(this));
+    load: function(type){
+      if(app.loaded) return app;
+      if(type != "wait") app.aAdd(-1);
+      if(app.assetsCount > 0 || $("tmpl[data-wait=\"true\"]").is("*")) return app;
+
+      $("#loadingWrap").fadeOut(500);
+
+      $("#content.steps .step:not(.active)").hide();
+
+      app.map = new google.maps.Map(document.getElementById("map"), {
+        center: app.center,
+        zoom: app.zoom.default,
+        clickableIcons: false,
+        disableDefaultUI: true,
+        disableDoubleClickZoom: true,
+        draggable: false,
+        scrollwheel: false
       });
-      $("[data-action]").each(function(){
-        $(this)
-          .data("data-action", $(this).attr("data-action"))
-          .removeAttr("data-action")
-          .click(function(event){
-            var clickData = $(this).data("data-action").split(":");
-            app[clickData[0]].apply($(this), clickData[1].split(","));
-            event.preventDefault();
-          });
-      });
+      app.distanceService = new google.maps.DistanceMatrixService();
+      app.directionsService = new google.maps.DirectionsService();
+      app.directionsDisplay = new google.maps.DirectionsRenderer();
+      app.directionsDisplay.setMap(null);
 
-      function checkAllSteps(type){
-        app.vars.locations = [];
-        var hasError = false;
-        var startOkay = false;
-        var endOkay = false;
+      app.loaded = true;
+      app.contentAware();
 
-        app.setVar("distance", {text:"",value:0});
-        app.setVar("duration", {days:0,value:0});
+      return app;
+    },
+    include: function(link, type, returnFunction){
+      link += (/\?/.test(link) ? "&" : "?") + "_=" + Date.now();
 
-        $("#steps_route .stepLocation .form-control").each(function(){
-          if($(this).data("searchBox").getPlace() && $(this).val()){
-            if($(this).parent().parent().attr("data-stop") == "start") startOkay = true;
-            if($(this).parent().parent().attr("data-stop") == "end") endOkay = true;
-          }
-        });
-
-        if(!startOkay || !endOkay) hasError = true;
-
-        $("#steps_route .stepLocation .form-control").each(function(){
-          var thisError = false;
-          $(this).parent().removeClass("has-error");
-          if($(this).data("searchBox").getPlace() && $(this).val()){
-            $(this).data("marker").setMap(app.map);
-            $(this).data("marker").setPosition($(this).data("searchBox").getPlace().geometry.location);
-          }
-          else {
-            if($(this).parent().parent().attr("data-stop")) thisError = true;
-            if($(this).val()) thisError = true;
-
-            if(thisError){
-              $(this).parent().addClass("has-error");
-              hasError = true;
-            }
-            if(thisError || !$(this).val()) $(this).data("marker").setMap(null);
-          }
-        });
-        $("#steps_route_error").addClass("hide");
-        $("#steps_route_next").attr("disabled", "disabled");
-        if(hasError){
-          app.directionsDisplay.setMap(null);
-          $("#steps_route .stepLocation .form-control").each(function(){
-            $(this).data("marker").setMap($(this).val() ? app.map : null);
-          });
-        }
-        else {
-          app.directionsDisplay.setMap(app.map);
-          var request = {
-            origin: {},
-            destination: {},
-            waypoints: [],
-            travelMode: "DRIVING"
-          };
-
-          request.origin = $("#steps_route .stepLocation[data-stop=\"start\"] .form-control").data("searchBox").getPlace().geometry.location;
-          request.destination = $("#steps_route .stepLocation[data-stop=\"end\"] .form-control").data("searchBox").getPlace().geometry.location;
-
-          app.vars.locations.push(request.origin);
-
-          $("#steps_route .stepLocation:not([data-stop])").each(function(){
-            if($(this).hasClass("has-error") || !$(this).find(".form-control").val()) return;
-            var stepArray = {
-              location: $(this).find(".form-control").data("searchBox").getPlace().geometry.location,
-              stopover: true
-            };
-            request.waypoints.push(stepArray);
-            app.vars.locations.push(stepArray.location);
-          });
-
-          app.vars.locations.push(request.destination);
-
-          app.directionsService.route(request, function(result, status) {
-            if(status == "OK"){
-              var stepDistance = 0;
-              var stepDuration = 0;
-              $.each(result.routes[0].legs, function(i, leg){
-                stepDistance += leg.distance.value;
-                stepDuration += leg.duration.value;
-              });
-
-              app.vars.distance.text = Math.ceil(stepDistance / 1000) + "km";
-              app.vars.distance.value = stepDistance;
-              app.vars.duration.days = Math.ceil(((stepDuration + ((app.vars.locations.length - 2) * (2 * 60 * 60))) / ( 60 * 60 * 14 )));
-              app.vars.duration.value = stepDuration;
-
-              if(app.vars.distance.value < 50000){
-                $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 50km.");
-                return;
-              }
-
-              if(app.vars.duration.days > app.vars.days) app.manageDays("set", app.vars.duration.days);
-
-              app.template("#steps/days/info", function(data){
-                $("#steps_route_info").html(data);
-              }, null, {});
-
-              $("#steps_route_next").removeAttr("disabled");
-              app.directionsDisplay.setDirections(result);
-              $("#steps_route .stepLocation .form-control").each(function(){
-                $(this).data("marker").setMap(null);
-              });
-            }
-            else $("#steps_route_error").removeClass("hide").find("span").html("We couldn't find a route for your travels.");
-          });
-        }
+      if(type=="css"){
+        $el = $("<link />");
+        $el
+          .attr("rel", "stylesheet")
+          .attr("href", link)
+          .ready(returnFunction);
+        $("body").append($el);
       }
-
-      $("#steps_route .stepLocation .form-control").each(function(){
-        if(typeof google == "undefined") return;
-        if($(this).data("dataInit")) return;
-        $(this).data("dataInit", true);
-
-        $(this).on("focus", function(){
-          $(this).val("");
-          $(this).data("marker").setMap(null);
-          checkAllSteps("focus");
-        });
-
-        var searchBox = new google.maps.places.Autocomplete(this, {
-          componentRestrictions: {country: "nz"}
-        });
-        var marker = new google.maps.Marker();
-
-        $(this).data("searchBox", searchBox);
-        $(this).data("marker", marker);
-
-        $(this).data("searchBox").addListener('place_changed', function() {
-          if(!searchBox.getPlace()) return;
-          $(this).parent().removeClass("has-error");
-          checkAllSteps("change");
-        });
-      });
-
-      $("#steps_party .stepParty .stepParty-item").each(function(){
-        if($(this).data("dataInit")) return;
-        $(this).data("dataInit", true);
-
-        $(this).click(function(){
-          app.vars.party = Number($(this).find("img").attr("data-party"));
-          $("#steps_party_next").removeAttr("disabled");
-          $("#steps_party .stepParty .stepParty-item").removeClass("active");
-          $(this).addClass("active");
-        });
-      });
+      if(type=="js") $.getScript(link, returnFunction);
+      if(type=="json") $.getJSON(link, returnFunction);
 
       return app;
     },
     template: function(template, successFunction, element, parse){
-
       function newSuccess(template, successFunction, element, parse){
         return function(tmplData, status, tmplInfo){
           var tmplParse = new Object;
@@ -249,7 +150,7 @@ $(document).ready(function(){
           });
           tmplData = tmplData_tmp.html();
           tmplData_tmp.remove();
-
+          delete tmplData_tmp;
 
           successFunction.call(element, tmplData, status, tmplInfo);
           app.contentAware();
@@ -262,7 +163,6 @@ $(document).ready(function(){
         tmplFunction(tmplData, "success", "internal");
       }
       else {
-
         var tmplURL;
         if(template.substr(0,8) == "https://" || template.substr(0,7) == "http://") tmplURL = template;
         else {
@@ -279,89 +179,191 @@ $(document).ready(function(){
 
       return app;
     },
-    include: function(link, type, returnFunction){
-      link += (/\?/.test(link) ? "&" : "?") + "_=" + Date.now();
-      if(type=="css"){
-        $el = $("<link />");
-        $el
-          .attr("rel", "stylesheet")
-          .attr("href", link)
-          .ready(returnFunction);
-        $("body").append($el);
+    contentAware: function(){
+      $("tmpl").each(function(){
+        if($(this).data("dataInit")) return;
+        $(this).data("dataInit", true);
+
+        app.template($(this).attr("src"), function(data){
+          var dataWait = $(this).attr("data-wait") == "true";
+
+          $(this).after(data).remove();
+
+          if(dataWait) app.load("wait");
+          app.contentAware();
+        }, $(this));
+      });
+
+      $("[data-action]").each(function(){
+        $(this)
+          .data("dataAction", $(this).attr("data-action"))
+          .removeAttr("data-action")
+          .click(function(e){
+            var clickData = $(this).data("dataAction").split(":");
+
+            app[clickData[0]].apply($(this), clickData[1] ? clickData[1].split(",") : []);
+
+            e.preventDefault();
+          });
+      });
+
+      function checkAllSteps(type){
+        var hasError = false;
+        var startOkay = false;
+        var endOkay = false;
+
+        app.setVar("distance", {text:"",value:0});
+        app.setVar("duration", {days:0,value:0});
+        app.setVar("locations", []);
+
+        $("#steps_route .stepLocation").each(function(){
+          if($(this).find(".form-control").data("searchBox").getPlace() && $(this).find(".form-control").val()){
+            if($(this).attr("data-stop") == "start") startOkay = true;
+            if($(this).attr("data-stop") == "end") endOkay = true;
+          }
+        });
+
+        if(!startOkay || !endOkay) hasError = true;
+
+        $("#steps_route .stepLocation .form-control").each(function(){
+          var thisError = false;
+          $(this).parent().removeClass("has-error");
+
+          if($(this).data("searchBox").getPlace() && $(this).val()){
+            $(this).data("marker").setMap(app.map);
+            $(this).data("marker").setPosition($(this).data("searchBox").getPlace().geometry.location);
+          }
+          else {
+            if($(this).parent().parent().attr("data-stop") || $(this).val()) thisError = true;
+
+            if(thisError){
+              $(this).parent().addClass("has-error");
+              hasError = true;
+            }
+            if(thisError || !$(this).val()) $(this).data("marker").setMap(null);
+          }
+        });
+
+        $("#steps_route_error").addClass("hide");
+        $("#steps_route_next").attr("disabled", "disabled");
+
+        if(hasError){
+          app.directionsDisplay.setMap(null);
+          $("#steps_route .stepLocation .form-control").each(function(){
+            $(this).data("marker").setMap($(this).val() ? app.map : null);
+          });
+        }
+        else {
+          app.directionsDisplay.setMap(app.map);
+          var request = {
+            origin: {},
+            destination: {},
+            waypoints: [],
+            travelMode: "DRIVING"
+          };
+
+          request.origin = $("#steps_route .stepLocation[data-stop=\"start\"] .form-control").data("searchBox").getPlace().geometry.location;
+          request.destination = $("#steps_route .stepLocation[data-stop=\"end\"] .form-control").data("searchBox").getPlace().geometry.location;
+
+          app.vars.locations.push(request.origin);
+
+          $("#steps_route .stepLocation:not([data-stop])").each(function(){
+            if($(this).hasClass("has-error") || !$(this).find(".form-control").val()) return;
+
+            var stepArray = {
+              location: $(this).find(".form-control").data("searchBox").getPlace().geometry.location,
+              stopover: true
+            };
+
+            request.waypoints.push(stepArray);
+            app.vars.locations.push(stepArray.location);
+          });
+
+          app.vars.locations.push(request.destination);
+
+          app.directionsService.route(request, function(result, status) {
+            if(status == "OK"){
+              var stepDistance = 0;
+              var stepDuration = 0;
+              $.each(result.routes[0].legs, function(i, leg){
+                stepDistance += leg.distance.value;
+                stepDuration += leg.duration.value;
+              });
+
+              app.vars.distance.text = Math.ceil(stepDistance / 1000) + "km";
+              app.vars.distance.value = stepDistance;
+              app.vars.duration.days = Math.ceil(((stepDuration + ((app.vars.locations.length - 2) * (2 * 60 * 60))) / ( 60 * 60 * 14 )));
+              app.vars.duration.value = stepDuration;
+
+              if(app.vars.distance.value < 50000){
+                $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 50km.");
+                return;
+              }
+
+              if(app.vars.duration.days > app.vars.days) app.manageDays("set", app.vars.duration.days);
+
+              app.template("#steps/days/info", function(data){
+                $("#steps_route_info").html(data);
+              }, null, {});
+
+              $("#steps_route_next").removeAttr("disabled");
+
+              app.directionsDisplay.setDirections(result);
+
+              $("#steps_route .stepLocation .form-control").each(function(){
+                $(this).data("marker").setMap(null);
+              });
+            }
+            else $("#steps_route_error").removeClass("hide").find("span").html("We couldn't find a route for your travels.");
+          });
+        }
       }
-      if(type=="js") $.getScript(link, returnFunction);
-      if(type=="json") $.getJSON(link, returnFunction);
+      $("#steps_route .stepLocation .form-control").each(function(){
+        if(typeof google == "undefined") return;
+        if($(this).data("dataInit")) return;
+        $(this).data("dataInit", true);
 
-      return app;
-    },
-    aAdd: function(add){
-      app.assetsCount += add||1;
-      return app;
-    },
-    init: function(){
-      app.aAdd().include(("https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=" + (window.location.hostname == "localhost" ? "AIzaSyDUhuRDR9mGCjRK19_AJ0TYz1kK4lAOR9o" : "AIzaSyCUlkyfiisV-1JwYVEITouh3qXed8ejS18")), "js", app.load);
+        $(this).on("focus", function(){
+          $(this).val("");
+          $(this).data("marker").setMap(null);
+          checkAllSteps("focus");
+        });
 
-      app.aAdd(2).include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", function(){
-        app.load();
-        app.template("main", function(data){
-          $("#wrapper").html(data);
-          app.contentAware().load();
+        var marker = new google.maps.Marker();
+        var searchBox = new google.maps.places.Autocomplete(this, {
+          componentRestrictions: {country: "nz"}
+        });
+
+        $(this).data("marker", marker);
+        $(this).data("searchBox", searchBox);
+
+        $(this).data("searchBox").addListener('place_changed', function() {
+          if(!searchBox.getPlace()) return;
+
+          $(this).parent().removeClass("has-error");
+          checkAllSteps("change");
         });
       });
 
-      app.aAdd().include("js/fuel.json", "json", function(data){
-        $.each(data, function(name, value){
-          app.setVar(name, value);
+      $("#steps_party .stepParty .stepParty-item").each(function(){
+        if($(this).data("dataInit")) return;
+        $(this).data("dataInit", true);
+
+        $(this).click(function(){
+          app.vars.party = Number($(this).find("img").attr("data-party"));
+          $("#steps_party_next").removeAttr("disabled");
+          $("#steps_party .stepParty .stepParty-item").removeClass("active");
+          $(this).addClass("active");
         });
-        app.load();
       });
-
-      app.aAdd().include("js/vehicles.json", "json", function(data){
-        app.setVar("vehicles", data);
-        app.load();
-      });
-
-      app.aAdd().include("js/agents.json", "json", function(data){
-        app.setVar("agents", data);
-        app.load();
-      });
-
-      return app;
-    },
-    assetsCount: 0,
-    loaded: false,
-    load: function(type){
-      if(app.loaded) return app;
-      if(type != "wait") app.aAdd(-1);
-      if(app.assetsCount > 0 || $("tmpl[data-wait=\"true\"]").is("*")) return app;
-
-      $("#loadingWrap").fadeOut(500);
-
-      $("#content.steps .step:not(.active)").hide();
-
-      app.map = new google.maps.Map(document.getElementById("map"), {
-        center: app.center,
-        zoom: app.zoom.default,
-        clickableIcons: false,
-        disableDefaultUI: true,
-        disableDoubleClickZoom: true,
-        draggable: false,
-        scrollwheel: false
-      });
-      app.distanceService = new google.maps.DistanceMatrixService();
-      app.directionsService = new google.maps.DirectionsService();
-      app.directionsDisplay = new google.maps.DirectionsRenderer();
-      app.directionsDisplay.setMap(null);
-
-      app.loaded = true;
-      app.contentAware();
 
       return app;
     },
     setStep: function(step){
       if($(this).attr("disabled")) return app;
-      $("#content.steps .step.active").removeClass("active").slideUp("fast");
-      $("#content.steps .step[data-step=\"" + step + "\"]").addClass("active").slideDown("fast");
+
+      $("#content.steps .step.active").removeClass("active").slideUp(300);
+      $("#content.steps .step[data-step=\"" + step + "\"]").addClass("active").slideDown(300);
 
       if(step == "vehicles"){
         app.setVar("rentals", []);
@@ -369,6 +371,7 @@ $(document).ready(function(){
         $.each(app.vars.vehicles, function(i, vehicle){
           if(app.vars.party < vehicle.party.min || app.vars.party > vehicle.party.max) return;
           if(app.vars.days < vehicle.days.min || app.vars.days > vehicle.days.max) return;
+
           var pushVehicle = vehicle;
           pushVehicle.id = i;
           pushVehicle.fuel_cost = (((vehicle.fuel / 100) * app.vars.fuel ) * (app.vars.distance.value / 1000)).toFixed(2);
@@ -381,17 +384,23 @@ $(document).ready(function(){
       }
 
       app.contentAware();
+
       return app;
     },
     manageStops: function(method, id){
+      var stopsNum = $("#steps_route .stepLocation:not([data-stop])").length;
+
       if(method == "add"){
-        var stopsNum = $("#steps_route .stepLocation:not([data-stop])").length + 1;
+        stopsNum++;
+
         app.template("#steps/route/destination", function(data){
           $("#steps_route .stepLocation:not([data-stop]):last").after(data);
         }, null, {num: stopsNum});
-
-        if(stopsNum >= 20) $("#steps_route .stepLocation-add").hide();
       }
+
+      if(stopsNum >= 20) $("#steps_route .stepLocation-add").hide();
+      else $("#steps_route .stepLocation-add").show();
+
       return app;
     },
     manageDays: function(method, num){
@@ -399,26 +408,28 @@ $(document).ready(function(){
       if(method == "add") daysCount++;
       if(method == "remove") daysCount--;
       if(method == "set") daysCount = num;
-      else if(daysCount < 1 || daysCount > 30) return app;
-      $("#steps_route_num").html(daysCount);
-      app.setVar("days", daysCount);
+
+      if(daysCount >= 1 || daysCount <= 30){
+        $("#steps_route_num").html(daysCount);
+        app.setVar("days", daysCount);
+      }
+
       return app;
     },
     selectVehicle: function(id){
       id = Number(id);
-      app.vars.vehicle = id;
+      app.setVar("vehicle", id);
 
       var vehicleArray = app.vars.vehicles[id];
-
       vehicleArray.agentInfo = app.vars.agents[vehicleArray.agent];
       vehicleArray.prices = {};
       vehicleArray.prices.days = Number(vehicleArray.price * app.vars.days);
-      vehicleArray.prices.fuel = Number((((vehicleArray.fuel / 100) * app.vars.fuel ) * (app.vars.distance.value / 1000)).toFixed(2));
+      vehicleArray.prices.fuel = Number((((vehicleArray.fuel / 100) * app.vars.fuel) * (app.vars.distance.value / 1000)).toFixed(2));
       vehicleArray.prices.total = vehicleArray.prices.days + vehicleArray.prices.fuel;
 
       app.template("#infobox", function(data){
         $(data)
-          .modal({backdrop:true})
+          .modal("show")
           .bind("hidden.bs.modal", function(){
             $(".modal,.modal-backdrop").remove();
           })
@@ -429,11 +440,22 @@ $(document).ready(function(){
 
       return app;
     },
+    setVar: function(name, value){
+      app.vars[name] = value;
+
+      return app;
+    },
+    aAdd: function(add){
+      app.assetsCount += add||1;
+
+      return app;
+    },
     reload: function(){
       $(".modal:visible").modal("hide");
-
       $("#loadingWrap").show();
+
       app.loaded = false;
+
       app.template("main", function(data){
         $("#wrapper").html(data);
         app.load();
