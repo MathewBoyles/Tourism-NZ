@@ -1,0 +1,38 @@
+<div class="step" data-step="days" id="steps_days">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>Über<span> Ihre </span>Reise</h1>
+        <small>Stufe 3/4</small>
+      </div>
+    </div>
+    <div class="stepWrap">
+      <div class="well"><i class="glyphicon glyphicon-question-sign"></i> Wie viele Tage benötigen Sie ein Mietfahrzeug?</div>
+      <div class="row stepParty">
+        <div class="col-xs-4 stepParty-item">
+          <div data-action="manageDays:remove">-</div>
+        </div>
+        <div class="col-xs-4 stepParty-item">
+          <div class="num" id="steps_route_num">1</div>
+        </div>
+        <div class="col-xs-4 stepParty-item">
+          <div data-action="manageDays:add">+</div>
+        </div>
+      </div>
+
+      <div id="steps_route_info"></div>
+
+      <script type="template/template" data-name="steps/days/info">
+      <div class="alert alert-info">
+        <i class="glyphicon glyphicon-info-sign"></i> Auf der Grundlage Ihrer Route empfehlen wir ein Minimum an {{global.duration.days}} tag{{#js_compare "app.vars.duration.days > 1"}}e{{/js_compare}}.
+      </div>
+      </script>
+    </div>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:party">Zurück</a>
+    <span class="pull-right">
+      <a class="btn btn-success btn-lg stepNext" data-action="setStep:vehicles">Nächster</a>
+    </span>
+  </div>
+</div>
