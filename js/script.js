@@ -96,7 +96,7 @@ $(document).ready(function(){
         if(hasError){
           app.directionsDisplay.setMap(null);
           $("#steps_route .stepLocation .form-control").each(function(){
-            $(this).data("marker").setMap(app.map);
+            $(this).data("marker").setMap($(this).val() ? app.map : null);
           });
         }
         else {
@@ -136,7 +136,7 @@ $(document).ready(function(){
 
               app.vars.distance.text = Math.ceil(stepDistance / 1000) + "km";
               app.vars.distance.value = stepDistance;
-              app.vars.duration.days = Math.ceil(stepDuration / ( 60 * 60 * 14 ));
+              app.vars.duration.days = Math.ceil(((stepDuration + ((app.vars.locations.length - 2) * (2 * 60 * 60))) / ( 60 * 60 * 14 )));
               app.vars.duration.value = stepDuration;
 
               if(app.vars.distance.value < 100000){
@@ -166,9 +166,10 @@ $(document).ready(function(){
         if($(this).data("dataInit")) return;
         $(this).data("dataInit", true);
 
-        $(this).on("blur", function(){
-          if($(this).data("searchBox").getPlace() && $(this).val()) $(this).parent().removeClass("has-error");
-          checkAllSteps("blur");
+        $(this).on("focus", function(){
+          $(this).val("");
+          $(this).data("marker").setMap(null);
+          checkAllSteps("focus");
         });
 
         var searchBox = new google.maps.places.Autocomplete(this, {
@@ -180,10 +181,8 @@ $(document).ready(function(){
         $(this).data("marker", marker);
 
         $(this).data("searchBox").addListener('place_changed', function() {
-          var places = searchBox.getPlace();
-          if (places.length == 0) {
-              return;
-          }
+          if(!searchBox.getPlace()) return;
+          $(this).parent().removeClass("has-error");
           $(this).parent().removeClass("has-error");
           checkAllSteps("change");
         });
