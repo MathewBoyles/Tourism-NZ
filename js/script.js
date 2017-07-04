@@ -140,7 +140,7 @@ $(document).ready(function(){
               app.vars.duration.value = stepDuration;
 
               if(app.vars.distance.value < 50000){
-                $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 100km.");
+                $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 50km.");
                 return;
               }
 
