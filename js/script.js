@@ -305,7 +305,7 @@ $(document).ready(function(){
 
       app.aAdd(2).include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", function(){
         app.load();
-        app.template("{{global.lang}}/main", function(data){
+        app.template("main", function(data){
           $("#wrapper").html(data);
           app.contentAware().load();
         });
