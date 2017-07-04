@@ -1,0 +1,38 @@
+<div class="step" data-step="days" id="steps_days">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>약<span> 너의 </span>여행</h1>
+        <small>단계 3/4</small>
+      </div>
+    </div>
+    <div class="stepWrap">
+      <div class="well"><i class="glyphicon glyphicon-question-sign"></i> 임대 차량을 몇 일 동안 필요합니까?</div>
+      <div class="row stepParty">
+        <div class="col-xs-4 stepParty-item">
+          <div data-action="manageDays:remove">-</div>
+        </div>
+        <div class="col-xs-4 stepParty-item">
+          <div class="num" id="steps_route_num">1</div>
+        </div>
+        <div class="col-xs-4 stepParty-item">
+          <div data-action="manageDays:add">+</div>
+        </div>
+      </div>
+
+      <div id="steps_route_info"></div>
+
+      <script type="template/template" data-name="steps/days/info">
+      <div class="alert alert-info">
+        <i class="glyphicon glyphicon-info-sign"></i> 경로를 기준으로 최소 {{global.duration.days}} 일
+      </div>
+      </script>
+    </div>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:party">너무 이른</a>
+    <span class="pull-right">
+      <a class="btn btn-success btn-lg stepNext" data-action="setStep:vehicles">다음 것</a>
+    </span>
+  </div>
+</div>

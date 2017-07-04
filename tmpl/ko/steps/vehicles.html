@@ -1,0 +1,37 @@
+<div class="step" data-step="vehicles" id="steps_vehicles">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>고르다<span> 너의 </span>렌탈</h1>
+        <small>단계 4/4</small>
+      </div>
+    </div>
+    <div class="stepWrap" id="steps_vehicles_list"></div>
+    <script type="template/template" data-name="steps/vehicles/vehicle">
+    <div class="stepVehicles">
+      {{#each global.rentals}}
+      <div class="panel panel-default stepVehicles-item" data-action="selectVehicle:{{id}}">
+        <div class="panel-heading">
+          <img src="{{image}}" alt="{{title}}">
+        </div>
+        <div class="panel-body text-center">
+          <h3 class="panel-title">{{title}}</h3>
+        </div>
+        <div class="panel-footer">
+          <div class="stepVehicles-item-left">${{price}}/일</div>
+          <a class="btn btn-success">정보 및 임대료</a>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless global.rentals.length}}
+      <div class="alert alert-warning">
+        <strong>죄송합니다</strong> 파티 규모와 소요 일수에 따라 차량을 찾을 수 없습니다.
+      </div>
+      {{/unless}}
+    </div>
+    </script>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:days">너무 이른</a>
+  </div>
+</div>

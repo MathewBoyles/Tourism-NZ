@@ -1,0 +1,44 @@
+<div class="step" data-step="route" id="steps_route">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>입력<span> 너의 </span>노선</h1>
+        <small>단계 1/4</small>
+      </div>
+    </div>
+    <div class="stepWrap">
+      <div class="alert alert-warning hide" id="steps_route_error"><strong>죄송합니다.!</strong> <span></span></div>
+      <div class="well"><i class="glyphicon glyphicon-info-sign"></i> 여행 경로를 입력하십시오. 중간 지점을 사용하여 정거장을 정의하십시오!</div>
+      <script type="template/template" data-name="steps/route/destination">
+      <div class="stepLocation">
+        <label>
+          <span>웨이 포인트 #{{num}}:</span>
+          <input class="form-control" placeholder="위치 입력">
+        </label>
+      </div>
+      </script>
+      <div class="stepLocation" data-stop="start">
+        <label>
+          <span>시작 위치:</span>
+          <input class="form-control" placeholder="위치 입력">
+        </label>
+      </div>
+      <tmpl src="#steps/route/destination" parse="{&quot;num&quot;:1}"></tmpl>
+      <div class="stepLocation-add">
+        <a class="btn btn-xs btn-block btn-default" data-action="manageStops:add">+ 다른 정거장 추가</a>
+      </div>
+      <div class="stepLocation" data-stop="end">
+        <label>
+          <span>끝 위치:</span>
+          <input class="form-control" placeholder="위치 입력">
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:start">너무 이른</a>
+    <span class="pull-right">
+      <a class="btn btn-success btn-lg stepNext" data-action="setStep:party" disabled="disabled" id="steps_route_next">다음 것</a>
+    </span>
+  </div>
+</div>
