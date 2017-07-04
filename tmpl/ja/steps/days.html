@@ -1,0 +1,38 @@
+<div class="step" data-step="days" id="steps_days">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>約<span> きみの </span>旅行</h1>
+        <small>質問 3/4</small>
+      </div>
+    </div>
+    <div class="stepWrap">
+      <div class="well"><i class="glyphicon glyphicon-question-sign"></i> レンタカーは何日必要ですか？</div>
+      <div class="row stepParty">
+        <div class="col-xs-4 stepParty-item">
+          <div data-action="manageDays:remove">-</div>
+        </div>
+        <div class="col-xs-4 stepParty-item">
+          <div class="num" id="steps_route_num">1</div>
+        </div>
+        <div class="col-xs-4 stepParty-item">
+          <div data-action="manageDays:add">+</div>
+        </div>
+      </div>
+
+      <div id="steps_route_info"></div>
+
+      <script type="template/template" data-name="steps/days/info">
+      <div class="alert alert-info">
+        <i class="glyphicon glyphicon-info-sign"></i> あなたのルートに基づいて、最低限の {{global.duration.days}} 日{{#js_compare "app.vars.duration.days > 1"}}々{{/js_compare}}.
+      </div>
+      </script>
+    </div>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:party">前</a>
+    <span class="pull-right">
+      <a class="btn btn-success btn-lg stepNext" data-action="setStep:vehicles">次に</a>
+    </span>
+  </div>
+</div>

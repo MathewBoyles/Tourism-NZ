@@ -1,0 +1,90 @@
+<script type="template/template" data-name="infobox">
+
+<div class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="閉じる"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default text-center">
+          <div class="panel-heading">
+            <h5 class="panel-title">車両</h5>
+          </div>
+          <div class="panel-heading">
+            <img src="{{image}}" class="img-responsive" style="display:inline-block">
+          </div>
+          <div class="panel-body">
+            <h3 class="panel-title">{{title}}</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default">
+              <div class="panel-heading text-center">
+                <h5 class="panel-title">旅行</h5>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item"><strong>{{global.distance.text}}</strong> 距離</li>
+                <li class="list-group-item">{{global.party}} 人</li>
+                <li class="list-group-item">{{global.days}} 日{{js "app.vars.days == 1 ? '' : '々'"}}</li>
+                <li class="list-group-item">
+                  <span><strong>${{prices.days}}</strong> 賃貸価格</span>
+                  <br />
+                  <div class="text-right">
+                    <small><em>(${{price}}/日 x {{global.days}} 日{{js "app.vars.days == 1 ? '' : '々'"}}</em></small>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <span><strong>${{prices.fuel}}</strong> 推定燃料コスト</span>
+                  <br />
+                  <div class="text-right">
+                    <small><em>(${{global.fuel}}/L x {{fuel}}L/100km ために {{global.distance.text}})</em></small>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <span><strong>${{prices.total}}</strong> 総見積費用</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div class="panel panel-default text-center">
+              <div class="panel-heading">
+                <h5 class="panel-title">レンタル</h5>
+              </div>
+              {{#if agentInfo.image}}
+              <div class="panel-heading">
+                <img src="{{agentInfo.image}}" class="img-responsive" style="display:inline-block">
+              </div>
+              {{/if}}
+              <div class="panel-body">
+                <h3 class="panel-title">{{agentInfo.title}}</h3>
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item">レンタルを確定するには、この代理店に直接お問い合わせください。</li>
+                {{#if agentInfo.phone}}
+                <a href="tel:{{agentInfo.phone}}">
+                  <li class="list-group-item">{{agentInfo.phone}}</li>
+                </a>
+                {{/if}}
+                {{#if agentInfo.website}}
+                <a href="{{agentInfo.website}}" target="_blank">
+                  <li class="list-group-item">ウェブサイトを訪問</li>
+                </a>
+                {{/if}}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link" data-action="reload:infobox">新しい検索</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</script>
