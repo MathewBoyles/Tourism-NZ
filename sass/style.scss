@@ -68,8 +68,10 @@ tmpl {
         border-bottom: 1px solid #e7e7e7;
         border-radius: 0;
         border-width: 0;
+        box-shadow: -2px -1px 4px 0px #4c4c4c;
         margin-bottom: 0;
         padding: 20px 15px;
+        z-index: 10;
 
         .navbar-header {
           .navbar-brand {
@@ -200,6 +202,15 @@ tmpl {
       #map {
         background: #eee;
         height: 100%;
+      }
+    }
+
+    @media (max-width: ($sidebar-width + 300)) {
+      #sidebar {
+        width: 100%;
+      }
+      #mapWrap {
+        display: none;
       }
     }
   }
