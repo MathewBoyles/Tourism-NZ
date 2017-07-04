@@ -1,19 +1,16 @@
 @-moz-keyframes stripes {
   0% {
     background-position-x: 0px; }
-
   100% {
     background-position-x: 200px; } }
 @-webkit-keyframes stripes {
   0% {
     background-position-x: 0px; }
-
   100% {
     background-position-x: 200px; } }
 @keyframes stripes {
   0% {
     background-position-x: 0px; }
-
   100% {
     background-position-x: 200px; } }
 html, body {
@@ -107,7 +104,7 @@ tmpl {
           color: #030303;
           cursor: pointer;
           font-size: 3em;
-          padding: 8px 0px 15px;
+          padding: 12px 0px 11px;
           text-align: center;
           -moz-user-select: none;
           -ms-user-select: none;
@@ -151,3 +148,5 @@ tmpl {
       width: 100%; }
     #wrapper > .row #mapWrap {
       display: none; } }
+
+/*# sourceMappingURL=style.css.map */
