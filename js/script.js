@@ -434,10 +434,10 @@ $(document).ready(function(){
       if(method == "remove") daysCount--;
       if(method == "set") daysCount = num;
 
-      if(daysCount >= 1 || daysCount <= 30){
-        $("#steps_route_num").html(daysCount);
-        app.setVar("days", daysCount);
-      }
+      if(daysCount < 1 || daysCount > 30) daysCount = daysCount < 1 ? 1 : 30;
+
+      $("#steps_route_num").html(daysCount);
+      app.setVar("days", daysCount);
 
       return app;
     },
