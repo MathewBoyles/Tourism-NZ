@@ -3,11 +3,11 @@
     <div class="jumbotron text-center">
       <div class="stepWrap">
         <h1>About<span> your </span>Trip</h1>
-        <small>Step 3/3</small>
+        <small>Step 3/5</small>
       </div>
     </div>
     <div class="stepWrap">
-      <div class="well"><i class="glyphicon glyphicon-question-sign"></i> How many days do you require a rantal vehicle?</div>
+      <div class="well"><i class="glyphicon glyphicon-question-sign"></i> How many days do you require a rental vehicle?</div>
       <div class="row stepParty">
         <div class="col-xs-4 stepParty-item">
           <div data-action="manageDays:remove">-</div>
@@ -24,7 +24,7 @@
 
       <script type="template/template" data-name="steps/days/info">
       <div class="alert alert-info">
-        <i class="glyphicon glyphicon-info-sign"></i> Based on your route, we recommend a minimum of {{global.duration.days}} days.
+        <i class="glyphicon glyphicon-info-sign"></i> Based on your route, we recommend a minimum of {{global.duration.days}} day{{#js_compare "app.vars.duration.days > 1"}}s{{/js_compare}}.
       </div>
       </script>
     </div>
@@ -32,7 +32,7 @@
   <div class="stepBottom">
     <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:party">Back</a>
     <span class="pull-right">
-      <a class="btn btn-success btn-lg stepNext" data-action="setStep:days">Next</a>
+      <a class="btn btn-success btn-lg stepNext" data-action="setStep:vehicles">Next</a>
     </span>
   </div>
 </div>

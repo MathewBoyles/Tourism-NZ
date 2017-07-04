@@ -1,0 +1,50 @@
+<div class="step" data-step="vehicles" id="steps_vehicles">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>Select<span> your </span>Rental</h1>
+        <small>Step 4/5</small>
+      </div>
+    </div>
+    <div class="stepWrap" id="steps_vehicles_list"></div>
+    <script type="template/template" data-name="steps/vehicles/vehicle">
+    <div class="panel panel-primary text-center">
+      <div class="panel-heading">
+        <h4>Your Trip</h4>
+        {{global.distance.text}} - {{global.days}} day{{#js_compare "app.vars.days > 1"}}s{{/js_compare}} - {{global.party}} {{#js_compare "app.vars.party === 1"}}person{{else}}people{{/js_compare}}
+      </div>
+      <div class="panel-body">{{global.rentals.length}} available rental option{{#js_compare "app.vars.rentals.length !== 1"}}s{{/js_compare}}</div>
+      <div class="panel-footer"><small>${{global.fuel}}/L fuel price</small></div>
+    </div>
+    <div class="stepVehicles">
+      {{#each global.rentals}}
+      <div class="panel panel-default stepVehicles-item">
+        <div class="panel-heading">
+          <img src="{{image}}">
+        </div>
+        <div class="panel-body">
+          <h3 class="panel-title">{{title}} - ${{price}}/day</h3>
+          <span>{{fuel}}L/100km - Approx ${{fuel_cost}} fuel cost</span>
+        </div>
+        <div class="panel-footer">
+          <div class="stepVehicles-item-left">
+            <i class="glyphicon glyphicon-user"></i> {{party.min}}-{{party.max}} people
+            &nbsp;
+            <i class="glyphicon glyphicon-calendar"></i> {{days.min}}-{{days.max}} days
+          </div>
+          <a class="btn btn-success" data-action="selectVehicle:{{id}}">Select</a>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless global.rentals.length}}
+      <div class="alert alert-warning">
+        <strong>Sorry!</strong> We couldn&#39;t find any vehicles based on your party size and days required.
+      </div>
+      {{/unless}}
+    </div>
+    </script>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:days">Back</a>
+  </div>
+</div>

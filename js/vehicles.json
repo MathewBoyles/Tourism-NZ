@@ -1,6 +1,7 @@
 [
   {
-    "title": "Motorbike",
+    "title": "2017 Honda Rebel 300/500",
+    "image": "img/vehicles/honda-87HXP.jpg",
     "party": {
       "min": 1,
       "max": 1
@@ -14,7 +15,8 @@
     "fuel": 3.7
   },
   {
-    "title": "Small Car",
+    "title": "2017 Smart Fortwo",
+    "image": "img/vehicles/fortwo-19KLB.jpg",
     "party": {
       "min": 1,
       "max": 2
@@ -28,7 +30,8 @@
     "fuel": 8.5
   },
   {
-    "title": "Large Car",
+    "title": "2017 Chevrolet SS",
+    "image": "img/vehicles/chevrolet-8r5pC.jpg",
     "party": {
       "min": 1,
       "max": 5
@@ -42,7 +45,8 @@
     "fuel": 9.7
   },
   {
-    "title": "Motorhome",
+    "title": "Autotrail Tribute 620",
+    "image": "img/vehicles/autotrail-HZFmU.jpg",
     "party": {
       "min": 2,
       "max": 6

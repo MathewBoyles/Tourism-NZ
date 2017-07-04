@@ -21,7 +21,11 @@ $(document).ready(function(){
       duration: {
         days: 0,
         value: 0
-      }
+      },
+      party: 0,
+      vehicle: null,
+      vehicles: [],
+      rentals: []
     },
     setVar: function(name, value){
       app.vars[name] = value;
@@ -57,8 +61,8 @@ $(document).ready(function(){
         var startOkay = false;
         var endOkay = false;
 
-        app.vars.distance = {text:"",value:0};
-        app.vars.duration = {days:0,value:0};
+        app.setVar("distance", {text:"",value:0});
+        app.setVar("duration", {days:0,value:0});
 
         $("#steps_route .stepLocation .form-control").each(function(){
           if($(this).data("searchBox").getPlace() && $(this).val()){
@@ -132,7 +136,7 @@ $(document).ready(function(){
 
               app.vars.distance.text = Math.ceil(stepDistance / 1000) + "km";
               app.vars.distance.value = stepDistance;
-              app.vars.duration.days = Math.ceil(stepDuration / ( 60 * 60 * 18 ));
+              app.vars.duration.days = Math.ceil(stepDuration / ( 60 * 60 * 14 ));
               app.vars.duration.value = stepDuration;
 
               if(app.vars.duration.days > app.vars.days) app.manageDays("set", app.vars.duration.days);
@@ -185,6 +189,7 @@ $(document).ready(function(){
         $(this).data("dataInit", true);
 
         $(this).click(function(){
+          app.vars.party = Number($(this).find("img").attr("data-party"));
           $("#steps_party_next").removeAttr("disabled");
           $("#steps_party .stepParty .stepParty-item").removeClass("active");
           $(this).addClass("active");
@@ -349,6 +354,25 @@ $(document).ready(function(){
       if($(this).attr("disabled")) return app;
       $("#content.steps .step.active").removeClass("active").slideUp("fast");
       $("#content.steps .step[data-step=\"" + step + "\"]").addClass("active").slideDown("fast");
+
+      if(app.vars.distance.value && app.vars.party && app.vars.days){
+        app.setVar("rentals", []);
+
+        $.each(app.vars.vehicles, function(i, vehicle){
+          if(app.vars.party < vehicle.party.min || app.vars.party > vehicle.party.max) return;
+          if(app.vars.days < vehicle.days.min || app.vars.days > vehicle.days.max) return;
+          var pushVehicle = vehicle;
+          pushVehicle.id = i;
+          pushVehicle.fuel_cost = ( ( (vehicle.fuel / 100) * app.vars.fuel ) * (app.vars.distance.value / 1000) ).toFixed(2);
+          app.vars.rentals.push(pushVehicle);
+        });
+
+        app.template("#steps/vehicles/vehicle", function(data){
+          $("#steps_vehicles_list").html(data);
+        });
+      }
+
+      app.contentAware();
       return app;
     },
     manageStops: function(method, id){
@@ -369,7 +393,14 @@ $(document).ready(function(){
       if(method == "set") daysCount = num;
       else if(daysCount < 1 || daysCount > 30) return app;
       $("#steps_route_num").html(daysCount);
-      app.vars.days = daysCount;
+      app.setVar("days", daysCount);
+      return app;
+    },
+    selectVehicle: function(id){
+      id = Number(id);
+      app.vars.vehicle = id;
+      console.log(id, app.vars.vehicles[id]);
+
       return app;
     }
   };

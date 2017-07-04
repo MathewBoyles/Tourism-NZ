@@ -155,6 +155,24 @@ tmpl {
                 }
               }
             }
+
+            .stepVehicles {
+              > .stepVehicles-item {
+                > .panel-heading {
+                  img {
+                    width: 100%;
+                  }
+                }
+                > .panel-footer {
+                  text-align: right;
+                  > .stepVehicles-item-left {
+                    float: left;
+                    margin-top: 7px;
+                  }
+                }
+              }
+            }
+
           }
           > .stepBottom {
             background: #f8f8f8;
