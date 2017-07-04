@@ -139,6 +139,11 @@ $(document).ready(function(){
               app.vars.duration.days = Math.ceil(stepDuration / ( 60 * 60 * 14 ));
               app.vars.duration.value = stepDuration;
 
+              if(app.vars.distance.value < 100000){
+                $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 100km.");
+                return;
+              }
+
               if(app.vars.duration.days > app.vars.days) app.manageDays("set", app.vars.duration.days);
 
               app.template("#steps/days/info", function(data){
@@ -151,7 +156,7 @@ $(document).ready(function(){
                 $(this).data("marker").setMap(null);
               });
             }
-            else $("#steps_route_error").removeClass("hide");
+            else $("#steps_route_error").removeClass("hide").find("span").html("We couldn't find a route for your travels.");
           });
         }
       }
