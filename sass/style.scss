@@ -207,6 +207,35 @@ tmpl {
               width: 130px;
             }
           }
+
+          &.stepHasSwiper {
+            .stepTop {
+              height: calc(100vh - 91px - 86px - 150px);
+            }
+            .stepSwiper {
+              .swiper-slide {
+                height: 150px;
+                position: relative;
+
+                img {
+                  height: auto;
+                  width: 100%;
+                }
+
+                .swiper-caption {
+                  background: #222;
+                  background: rgba(34, 34, 34, 0.7);
+                  bottom: 0;
+                  color: white;
+                  left: 0;
+                  padding: 7px 15px;
+                  position: absolute;
+                  font-size: 0.8em;
+                  width: 100%;
+                }
+              }
+            }
+          }
         }
       }
     }

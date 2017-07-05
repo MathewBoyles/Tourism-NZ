@@ -1,4 +1,4 @@
-<div class="step stepWelcome active" data-step="start" id="steps_start">
+<div class="step stepWelcome stepHasSwiper active" data-step="start" id="steps_start">
   <div class="stepTop">
     <div class="jumbotron text-center">
       <div class="stepWrap">
@@ -6,9 +6,20 @@
       </div>
     </div>
     <div class="stepWrap">
-      Welcome message here
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          当您访问新西兰时，<strong>DriveMate</strong>可以轻松找到租车。 只有4个步骤，你可以在你的路上。
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item"><small>1.</small> 输入您计划旅行的路线</li>
+          <li class="list-group-item"><small>2.</small> 指示所需座位数量</li>
+          <li class="list-group-item"><small>3.</small> 输入需要的天数</li>
+          <li class="list-group-item"><small>4.</small> 选择租车</li>
+        </ul>
+      </div>
     </div>
   </div>
+  <tmpl src="poi" data-wait="true"></tmpl>
   <div class="stepBottom">
     <a class="btn btn-success btn-lg btn-block" data-action="setStep:route">开始使用</a>
   </div>

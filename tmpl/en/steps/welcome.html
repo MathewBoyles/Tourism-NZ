@@ -1,4 +1,4 @@
-<div class="step stepWelcome active" data-step="start" id="steps_start">
+<div class="step stepWelcome stepHasSwiper active" data-step="start" id="steps_start">
   <div class="stepTop">
     <div class="jumbotron text-center">
       <div class="stepWrap">
@@ -6,9 +6,20 @@
       </div>
     </div>
     <div class="stepWrap">
-      Welcome message here
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>DriveMate</strong> makes it easy to find a rental vehicle while you visit New Zealand. In only 4 steps, you can be on your way.
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item"><small>1.</small> Enter the route you plan to travel</li>
+          <li class="list-group-item"><small>2.</small> Indicate amount of seats required</li>
+          <li class="list-group-item"><small>3.</small> Input a number of days required</li>
+          <li class="list-group-item"><small>4.</small> Select rental vehicle</li>
+        </ul>
+      </div>
     </div>
   </div>
+  <tmpl src="poi" data-wait="true"></tmpl>
   <div class="stepBottom">
     <a class="btn btn-success btn-lg btn-block" data-action="setStep:route">Get Started</a>
   </div>

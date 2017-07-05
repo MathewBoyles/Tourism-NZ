@@ -1,4 +1,4 @@
-<div class="step stepWelcome active" data-step="start" id="steps_start">
+<div class="step stepWelcome stepHasSwiper active" data-step="start" id="steps_start">
   <div class="stepTop">
     <div class="jumbotron text-center">
       <div class="stepWrap">
@@ -6,9 +6,20 @@
       </div>
     </div>
     <div class="stepWrap">
-      Welcome message here
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>DriveMate</strong> macht es einfach, ein Mietfahrzeug zu finden, während Sie Neuseeland besuchen. In nur 4 Schritten kannst du auf dem Weg sein.
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item"><small>1.</small> Geben Sie die Route ein, die Sie reisen möchten</li>
+          <li class="list-group-item"><small>2.</small> Geben Sie die Anzahl der benötigten Plätze an</li>
+          <li class="list-group-item"><small>3.</small> Geben Sie eine Anzahl von Tagen ein</li>
+          <li class="list-group-item"><small>4.</small> Fahrzeug auswählen</li>
+        </ul>
+      </div>
     </div>
   </div>
+  <tmpl src="poi" data-wait="true"></tmpl>
   <div class="stepBottom">
     <a class="btn btn-success btn-lg btn-block" data-action="setStep:route">Sich aufmachen</a>
   </div>

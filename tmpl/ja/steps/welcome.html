@@ -1,4 +1,4 @@
-<div class="step stepWelcome active" data-step="start" id="steps_start">
+<div class="step stepWelcome stepHasSwiper active" data-step="start" id="steps_start">
   <div class="stepTop">
     <div class="jumbotron text-center">
       <div class="stepWrap">
@@ -6,9 +6,20 @@
       </div>
     </div>
     <div class="stepWrap">
-      Welcome message here
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>DriveMate</strong>では、ニュージーランドを訪れる際にレンタカーを簡単に見つけることができます。 ほんの4つのステップで、あなたはあなたの道を行くことができます。
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item"><small>1.</small> あなたが旅行する予定のルートを入力してください</li>
+          <li class="list-group-item"><small>2.</small> 必要座席数の表示</li>
+          <li class="list-group-item"><small>3.</small> 必要な日数を入力してください</li>
+          <li class="list-group-item"><small>4.</small> レンタカーの選択</li>
+        </ul>
+      </div>
     </div>
   </div>
+  <tmpl src="poi" data-wait="true"></tmpl>
   <div class="stepBottom">
     <a class="btn btn-success btn-lg btn-block" data-action="setStep:route">Get Started</a>
   </div>

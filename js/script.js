@@ -35,20 +35,29 @@ $(document).ready(function(){
         app.contentAware().load();
       });
 
+      app.aAdd().include("https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css", "css", app.load);
+
       app.aAdd(2).include("https://cdnjs.cloudflare.com/ajax/libs/template7/1.2.3/template7.min.js", "js", function(){
-        app.load();
-        app.aAdd(2).include("js/languages.json", "json", function(data){
-          app.setVar("languages", data);
+        app.aAdd().include("https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.js", "js", function(){
+          app.aAdd().include("js/poi.json", "json", function(data){
+            app.setVar("poi", data);
 
-          app.template("language", function(data){
-            $("#loadingWrap").fadeOut(500);
+            app.aAdd(2).include("js/languages.json", "json", function(data){
+              app.setVar("languages", data);
 
-            $("#languages").html(data);
-            app.contentAware().load();
+              app.template("language", function(data){
+                $("#loadingWrap").fadeOut(500);
+
+                $("#languages").html(data);
+                app.contentAware().load();
+              });
+              app.load();
+            });
+            app.load();
           });
-
           app.load();
         });
+        app.load();
       });
 
       app.aAdd().include("js/fuel.json", "json", function(data){
@@ -218,6 +227,18 @@ $(document).ready(function(){
 
             e.preventDefault();
           });
+      });
+
+      $("#steps_start .stepSwiper").each(function(){
+        var swiper = new Swiper(this, {
+          paginationClickable: false,
+          preloadImages: false,
+          lazyLoading: true,
+          spaceBetween: 20,
+          autoplay: 5000,
+          autoplayDisableOnInteraction: true
+        });
+        $(this).data("swiper", swiper);
       });
 
       function checkAllSteps(type){

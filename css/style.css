@@ -1,19 +1,16 @@
 @-moz-keyframes stripes {
   0% {
     background-position-x: 0px; }
-
   100% {
     background-position-x: 200px; } }
 @-webkit-keyframes stripes {
   0% {
     background-position-x: 0px; }
-
   100% {
     background-position-x: 200px; } }
 @keyframes stripes {
   0% {
     background-position-x: 0px; }
-
   100% {
     background-position-x: 200px; } }
 html, body {
@@ -159,6 +156,24 @@ tmpl {
       #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepNext {
         margin-left: 7px;
         width: 130px; }
+    #wrapper > .row #sidebar .steps > .step.stepHasSwiper .stepTop {
+      height: calc(100vh - 91px - 86px - 150px); }
+    #wrapper > .row #sidebar .steps > .step.stepHasSwiper .stepSwiper .swiper-slide {
+      height: 150px;
+      position: relative; }
+      #wrapper > .row #sidebar .steps > .step.stepHasSwiper .stepSwiper .swiper-slide img {
+        height: auto;
+        width: 100%; }
+      #wrapper > .row #sidebar .steps > .step.stepHasSwiper .stepSwiper .swiper-slide .swiper-caption {
+        background: #222;
+        background: rgba(34, 34, 34, 0.7);
+        bottom: 0;
+        color: white;
+        left: 0;
+        padding: 7px 15px;
+        position: absolute;
+        font-size: 0.8em;
+        width: 100%; }
   #wrapper > .row #mapWrap {
     float: right;
     height: 100vh;
@@ -171,3 +186,5 @@ tmpl {
       width: 100%; }
     #wrapper > .row #mapWrap {
       display: none; } }
+
+/*# sourceMappingURL=style.css.map */

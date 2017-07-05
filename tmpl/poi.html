@@ -1,0 +1,13 @@
+<div class="stepSwiper swiper-container">
+  <div class="swiper-wrapper">
+    {{#each global.poi}}
+    <div class="swiper-slide">
+      <a href="{{link}}" target="_blank">
+        <img data-src="{{image}}" class="swiper-lazy">
+        <div class="swiper-caption">{{caption}}</div>
+      </a>
+      <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
+    </div>
+    {{/each}}
+  </div>
+</div>
