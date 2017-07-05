@@ -379,6 +379,7 @@ $(document).ready(function(){
       return app;
     },
     setLang: function(lang){
+      $("html").attr("lang", lang);
       app.setVar("lang", lang);
 
       $("#loadingWrap").fadeIn(500, function(){
