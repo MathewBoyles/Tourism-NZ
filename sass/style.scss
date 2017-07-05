@@ -1,9 +1,9 @@
 $primary-color: #91c058;
 $sidebar-width: 350px;
-
 @import "animations";
 
-html, body {
+body,
+html {
   overflow: hidden;
 }
 
@@ -11,21 +11,21 @@ tmpl {
   display: none!important;
 }
 
-#loadingWrap,
-#languageWrap {
+#languageWrap,
+#loadingWrap {
   -moz-animation: stripes 8s linear 0s infinite normal;
   -webkit-animation: stripes 8s linear 0s infinite normal;
   animation: stripes 8s linear 0s infinite normal;
   background: $primary-color;
-  background-image: url(../img/stripes.png);
+  background-image: url("../img/stripes.png");
   background-repeat: repeat;
   height: 100%;
   position: fixed;
   width: 100%;
   z-index: 1000;
 
-  #loading,
-  #language {
+  #language,
+  #loading {
     color: #FFF;
     left: 50%;
     position: absolute;
@@ -54,6 +54,7 @@ tmpl {
 #languageWrap {
   .languages {
     margin: 20px 0 0 10px;
+
     > .languagesSelect {
       cursor: pointer;
       margin: 10px 10px 0 0;
@@ -85,7 +86,7 @@ tmpl {
         border-bottom: 1px solid #e7e7e7;
         border-radius: 0;
         border-width: 0;
-        box-shadow: -2px -1px 4px 0px #4c4c4c;
+        box-shadow: -2px -1px 4px 0 #4c4c4c;
         margin-bottom: 0;
         padding: 20px 15px;
         z-index: 10;
@@ -116,6 +117,7 @@ tmpl {
             .jumbotron {
               h1 {
                 font-size: 3em;
+
                 span {
                   display: block;
                   font-size: 70%;
@@ -125,6 +127,7 @@ tmpl {
 
             .stepLocation {
               margin-bottom: 10px;
+
               label {
                 display: block;
               }
@@ -152,21 +155,22 @@ tmpl {
                   color: #030303;
                   cursor: pointer;
                   font-size: 3em;
-                  padding: 12px 0px 11px;
+                  padding: 12px 0 11px;
                   text-align: center;
                   -moz-user-select: none;
                   -ms-user-select: none;
                   -webkit-user-select: none;
                   user-select: none;
+
                   &.num {
-                    padding: 11px 0px 12px;
+                    padding: 11px 0 12px;
                   }
                 }
 
                 &.active {
                   > img {
                     background: #91c058;
-                    background: url(../img/stripes.png);
+                    background: url("../img/stripes.png");
                     -moz-animation: stripes 30s linear 0s infinite normal;
                     -webkit-animation: stripes 30s linear 0s infinite normal;
                     animation: stripes 30s linear 0s infinite normal;
@@ -182,8 +186,10 @@ tmpl {
                     width: 100%;
                   }
                 }
+
                 > .panel-footer {
                   text-align: right;
+
                   > .stepVehicles-item-left {
                     float: left;
                     margin-top: 7px;
@@ -191,17 +197,19 @@ tmpl {
                 }
               }
             }
-
           }
+
           > .stepBottom {
             background: #f8f8f8;
             border-top: 1px solid #e7e7e7;
             padding: 20px;
             height: 86px;
-            > .stepBack,
-            > .stepSkip {
+
+             > .stepSkip,
+            > .stepBack {
               margin-top: 7px;
             }
+
             > .stepNext {
               margin-left: 7px;
               width: 130px;
@@ -212,6 +220,7 @@ tmpl {
             .stepTop {
               height: calc(100vh - 91px - 86px - 150px);
             }
+
             .stepSwiper {
               .swiper-slide {
                 height: 150px;
@@ -250,11 +259,11 @@ tmpl {
         height: 100%;
       }
     }
-
     @media (max-width: ($sidebar-width + 300)) {
       #sidebar {
         width: 100%;
       }
+
       #mapWrap {
         display: none;
       }
