@@ -1,0 +1,37 @@
+<div class="step" data-step="vehicles" id="steps_vehicles">
+  <div class="stepTop">
+    <div class="jumbotron text-center">
+      <div class="stepWrap">
+        <h1>选择<span> 你的 </span>出租</h1>
+        <small>步 4/4</small>
+      </div>
+    </div>
+    <div class="stepWrap" id="steps_vehicles_list"></div>
+    <script type="template/template" data-name="steps/vehicles/vehicle">
+    <div class="stepVehicles">
+      {{#each global.rentals}}
+      <div class="panel panel-default stepVehicles-item" data-action="selectVehicle:{{id}}">
+        <div class="panel-heading">
+          <img src="{{image}}" alt="{{title}}">
+        </div>
+        <div class="panel-body text-center">
+          <h3 class="panel-title">{{title}}</h3>
+        </div>
+        <div class="panel-footer">
+          <div class="stepVehicles-item-left">${{price}}/天</div>
+          <a class="btn btn-success">信息和租金</a>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless global.rentals.length}}
+      <div class="alert alert-warning">
+        <strong>抱歉!</strong> 我们找不到任何车辆，根据您的团队规模和所需的天数。
+      </div>
+      {{/unless}}
+    </div>
+    </script>
+  </div>
+  <div class="stepBottom">
+    <a class="btn btn-link btn-sm pull-left stepBack" data-action="setStep:days">以前</a>
+  </div>
+</div>
