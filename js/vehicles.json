@@ -8,8 +8,7 @@
     },
     "days": {
       "min": 1,
-      "max": 5,
-      "weekends": 1
+      "max": 5
     },
     "price": 109,
     "fuel": 3.7,
@@ -24,8 +23,7 @@
     },
     "days": {
       "min": 1,
-      "max": 10,
-      "weekends": 1
+      "max": 10
     },
     "price": 129,
     "fuel": 8.5,
@@ -40,8 +38,7 @@
     },
     "days": {
       "min": 3,
-      "max": 10,
-      "weekends": 1
+      "max": 10
     },
     "price": 144,
     "fuel": 9.7,
@@ -56,8 +53,7 @@
     },
     "days": {
       "min": 2,
-      "max": 15,
-      "weekends": 1
+      "max": 15
     },
     "price": 200,
     "fuel": 17.0,

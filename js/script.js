@@ -305,7 +305,7 @@ $(document).ready(function(){
 
               app.vars.distance.text = Math.ceil(stepDistance / 1000) + "km";
               app.vars.distance.value = stepDistance;
-              app.vars.duration.days = Math.ceil(((stepDuration + ((app.vars.locations.length - 2) * (2 * 60 * 60))) / ( 60 * 60 * 14 )));
+              app.vars.duration.days = Math.max(2, Math.ceil(((stepDuration + ((app.vars.locations.length - 2) * (2 * 60 * 60))) / ( 60 * 60 * 14 )))) + 1;
               app.vars.duration.value = stepDuration;
 
               if(app.vars.distance.value < 50000){
