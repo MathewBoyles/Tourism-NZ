@@ -382,6 +382,9 @@ $(document).ready(function(){
       $("html").attr("lang", lang);
       app.setVar("lang", lang);
 
+      $("#loadingWrap small,#loadingWrap span[lang]").hide();
+      $("#loadingWrap [lang=\"" + lang + "\"]").show();
+
       $("#loadingWrap").fadeIn(500, function(){
         $("#languageWrap").hide();
         app.template("main", function(data){
