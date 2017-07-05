@@ -309,7 +309,10 @@ $(document).ready(function(){
               app.vars.duration.value = stepDuration;
 
               if(app.vars.distance.value < 50000){
-                $("#steps_route_error").removeClass("hide").find("span").html("Your route is too short. Rental vehicles are only available for a minimum of 50km.");
+                app.template("#steps/route/error/short", function(data){
+                  $("#steps_route_error").removeClass("hide").find("span").html(data);
+                });
+
                 return;
               }
 
@@ -327,7 +330,11 @@ $(document).ready(function(){
                 $(this).data("marker").setMap(null);
               });
             }
-            else $("#steps_route_error").removeClass("hide").find("span").html("We couldn't find a route for your travels.");
+            else{
+              app.template("#steps/route/error/none", function(data){
+                $("#steps_route_error").removeClass("hide").find("span").html(data);
+              });
+            }
           });
         }
       }
