@@ -1,16 +1,19 @@
 @-moz-keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 @-webkit-keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 @keyframes stripes {
   0% {
     background-position-x: 0px; }
+
   100% {
     background-position-x: 200px; } }
 body,
@@ -89,9 +92,11 @@ tmpl {
       margin-bottom: 0;
       padding: 20px 15px;
       z-index: 10; }
-      #wrapper > .row #sidebar nav .navbar-header .navbar-brand img {
-        margin-top: -7px;
-        width: 100px; }
+      #wrapper > .row #sidebar nav .navbar-header .navbar-brand {
+        padding: 5px; }
+        #wrapper > .row #sidebar nav .navbar-header .navbar-brand img {
+          height: 40px;
+          width: auto; }
     #wrapper > .row #sidebar .steps > .step > .stepTop {
       height: calc(100vh - 91px - 86px);
       overflow: hidden;
@@ -113,6 +118,11 @@ tmpl {
         margin: -5px 0 10px; }
       #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty {
         margin-bottom: 20px; }
+        #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item > .badge {
+          bottom: -6px;
+          line-height: 15px;
+          position: absolute;
+          right: 6px; }
         #wrapper > .row #sidebar .steps > .step > .stepTop .stepParty > .stepParty-item > img {
           background: #eee;
           border-radius: 6px;
@@ -187,5 +197,3 @@ tmpl {
       width: 100%; }
     #wrapper > .row #mapWrap {
       display: none; } }
-
-/*# sourceMappingURL=style.css.map */

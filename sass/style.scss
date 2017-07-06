@@ -93,9 +93,10 @@ tmpl {
 
         .navbar-header {
           .navbar-brand {
+            padding: 5px;
             img {
-              margin-top: -7px;
-              width: 100px;
+              height: 40px;
+              width: auto;
             }
           }
         }
@@ -141,6 +142,13 @@ tmpl {
               margin-bottom: 20px;
 
               > .stepParty-item {
+                > .badge {
+                  bottom: -6px;
+                  line-height: 15px;
+                  position: absolute;
+                  right: 6px;
+                }
+
                 > img {
                   background: #eee;
                   border-radius: 6px;
