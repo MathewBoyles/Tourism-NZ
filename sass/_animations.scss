@@ -1,23 +1,26 @@
 @-moz-keyframes stripes {
   0% {
-    background-position-x: 0px;
+    background-position-x: 0;
   }
+
   100% {
     background-position-x: 200px;
   }
 }
 @-webkit-keyframes stripes {
   0% {
-    background-position-x: 0px;
+    background-position-x: 0;
   }
+
   100% {
     background-position-x: 200px;
   }
 }
 @keyframes stripes {
   0% {
-    background-position-x: 0px;
+    background-position-x: 0;
   }
+
   100% {
     background-position-x: 200px;
   }

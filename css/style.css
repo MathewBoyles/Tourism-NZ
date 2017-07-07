@@ -1,18 +1,18 @@
 @-moz-keyframes stripes {
   0% {
-    background-position-x: 0px; }
+    background-position-x: 0; }
 
   100% {
     background-position-x: 200px; } }
 @-webkit-keyframes stripes {
   0% {
-    background-position-x: 0px; }
+    background-position-x: 0; }
 
   100% {
     background-position-x: 200px; } }
 @keyframes stripes {
   0% {
-    background-position-x: 0px; }
+    background-position-x: 0; }
 
   100% {
     background-position-x: 200px; } }
@@ -161,8 +161,8 @@ tmpl {
       border-top: 1px solid #e7e7e7;
       padding: 20px;
       height: 86px; }
-      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepSkip,
-      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepBack {
+      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepBack,
+      #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepSkip {
         margin-top: 7px; }
       #wrapper > .row #sidebar .steps > .step > .stepBottom > .stepNext {
         margin-left: 7px;

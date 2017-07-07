@@ -94,6 +94,7 @@ tmpl {
         .navbar-header {
           .navbar-brand {
             padding: 5px;
+
             img {
               height: 40px;
               width: auto;
@@ -213,8 +214,8 @@ tmpl {
             padding: 20px;
             height: 86px;
 
-             > .stepSkip,
-            > .stepBack {
+             > .stepBack,
+            > .stepSkip {
               margin-top: 7px;
             }
 

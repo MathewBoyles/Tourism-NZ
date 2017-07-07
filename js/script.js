@@ -484,10 +484,10 @@ $(document).ready(function() {
       var vehicleArray = app.vars.vehicles[id];
       vehicleArray.agentInfo = app.vars.agents[vehicleArray.agent];
       vehicleArray.prices = {};
+      vehicleArray.prices.day = vehicleArray.price.toFixed(2);
       vehicleArray.prices.days = (vehicleArray.price * app.vars.days).toFixed(2);
       vehicleArray.prices.fuel = (((vehicleArray.fuel / 100) * app.vars.fuel) * (app.vars.distance.value / 1000)).toFixed(2);;
       vehicleArray.prices.total = (Number(vehicleArray.prices.days) + Number(vehicleArray.prices.fuel)).toFixed(2);;
-      vehicleArray.price = vehicleArray.price.toFixed(2);
 
       app.template("#infobox", function(data) {
         $(data)
