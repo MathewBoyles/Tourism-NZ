@@ -519,6 +519,7 @@ $(document).ready(function() {
       $(".modal:visible").modal("hide");
       $("#loadingWrap").show();
 
+      app.setVar("days", 1);
       app.loaded = false;
 
       app.template("main", function(data) {
