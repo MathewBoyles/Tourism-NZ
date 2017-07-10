@@ -12,7 +12,7 @@
       {{#each global.rentals}}
       <div class="panel panel-default stepVehicles-item" data-action="selectVehicle:{{id}}">
         <div class="panel-heading">
-          <img src="{{image}}" alt="{{title}}">
+          <img data-src="{{image}}" alt="{{title}}">
         </div>
         <div class="panel-body text-center">
           <h3 class="panel-title">{{title}}</h3>
@@ -32,6 +32,6 @@
     </script>
   </div>
   <div class="stepBottom">
-    <a class="btn btn-default btn-sm pull-left stepBack" data-action="setStep:days">Nächster</a>
+    <a class="btn btn-default btn-sm pull-left stepBack" data-action="setStep:days">Zurück</a>
   </div>
 </div>

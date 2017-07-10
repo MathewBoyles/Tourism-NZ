@@ -147,8 +147,8 @@ $(document).ready(function() {
           tmplParse.global = app.vars;
           var tmplData_tmp;
 
-          tmplData_tmp = $("<script />");
-          tmplData_tmp.attr("type", "text/plain");
+          tmplData_tmp = $("<div />");
+          tmplData_tmp.attr("type", "template/temp");
           tmplData_tmp.html(tmplData);
           tmplData_tmp.find("script").each(function() {
             app.tmp.push($(this).html());
@@ -159,13 +159,16 @@ $(document).ready(function() {
           tmplData = tmplData(tmplParse);
 
           tmplData_tmp.remove();
-          tmplData_tmp = $("<script />");
-          tmplData_tmp.attr("type", "text/plain");
+          tmplData_tmp = $("<div />");
+          tmplData_tmp.attr("type", "template/temp");
           tmplData_tmp.html(tmplData);
           tmplData_tmp.find("script").each(function() {
             var tmplID = Number($(this).html());
             $(this).html(app.tmp[tmplID]);
             app.tmp[tmplID] = "";
+          });
+          tmplData_tmp.find("img[data-src],script[data-src]").each(function() {
+            $(this).attr("src", $(this).attr("data-src")).removeAttr("data-src");
           });
           tmplData = tmplData_tmp.html();
           tmplData_tmp.remove();
